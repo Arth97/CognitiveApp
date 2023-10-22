@@ -1,0 +1,19 @@
+
+.number-memory-menu-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /*flex-grow: 1; /* Permite que los botones ocupen todo el espacio vertical disponible */
+}
+
+.number-memory-menu-btn {
+  border: none;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 200px;
+}
