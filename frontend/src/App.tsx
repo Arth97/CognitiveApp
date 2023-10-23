@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Login, Register, Home, NumberMemory, WordMemory, LetterMix, QuickReflex } from './pages';
+import { Login, Register, Home, NumberMemory, WordMemory, LetterMix, QuickReflex, SentenceMemory } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import { UserInfoContextProvider } from './context/userInfoContext';
 
@@ -26,6 +26,7 @@ function App() {
           <Route path="/word-memory" element={<WordMemory />} />
           <Route path="/letter-mix" element={<LetterMix />} />
           <Route path="/quick-reflex" element={<QuickReflex />} />
+          <Route path="/sentence-memory" element={<SentenceMemory />} />
         </Routes>
       </UserInfoContextProvider>
     </div>

@@ -6,14 +6,14 @@ including Express.js, React, Clean Architecture, MongoDB, Mongoose, Zustand, des
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Technologies Used](#technologies-used)
+- [Technologies](#technologies)
 
 ## Introduction
 
 The purpose of this project is to provide a learning platform for me to improve my skills in software development. 
 I'm using this project to practice implementing various technologies, design patterns, and software architectures. 
 
-## Technologies Used
+## Technologies
 
 This project is built using the following technologies:
 

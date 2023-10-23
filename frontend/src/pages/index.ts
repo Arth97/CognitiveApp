@@ -5,3 +5,4 @@ export { NumberMemory } from './NumberMemory';
 export { WordMemory } from './WordMemory';
 export { LetterMix } from './LetterMix';
 export { QuickReflex } from './QuickReflex';
+export { SentenceMemory } from './SentenceMemory';

@@ -13,6 +13,7 @@ export const Home = (props) => {
         <button onClick={() => navigate('/word-memory')} className="main-btn">Word Memory</button>
         <button onClick={() => navigate('/letter-mix')} className="main-btn">LetterMix</button>
         <button onClick={() => navigate('/quick-reflex')} className="main-btn">QuickReflex</button>
+        <button onClick={() => navigate('/sentence-memory')} className="main-btn">SentenceMemory</button>
         <button className="main-btn">Button</button>
         <button className="main-btn">Button</button>
         <button className="main-btn">Button</button>
