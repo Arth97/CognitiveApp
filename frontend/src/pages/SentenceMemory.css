@@ -3,9 +3,10 @@
   font-size: 24px;
   font-weight: bold;
   margin: 20px 0;
+  max-width: 600px;
 }
 
-.challenge input {
+.challenge input {  
   border: 1px solid black;
   padding: 5px;
 }
@@ -20,4 +21,32 @@
 
 .challenge button:hover {
   background-color: #0056b3;
+}
+
+.sentence-preview {  
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: -50px;
+  /* max-width: 600px;  */
+  max-width: 600px;
+  word-wrap: break-word;
+}
+
+/* Clase para palabras ocultas */
+.hidden-word {
+  color: transparent; /* Hace que el texto sea transparente */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Elimina el borde */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
+
+/* Estilos para mostrar palabras ocultas al pasar el mouse */
+.hidden-word:hover {
+  cursor: pointer;
+  color: initial; /* Restaura el color de texto original al pasar el mouse */
+  background-color: initial; /* Restaura el fondo original al pasar el mouse */
+}
+
+span {
+  cursor: pointer;
 }
