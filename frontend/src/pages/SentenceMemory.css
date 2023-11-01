@@ -30,6 +30,7 @@
   /* max-width: 600px;  */
   max-width: 600px;
   word-wrap: break-word;
+  /* white-space: nowrap; */
 }
 
 /* Clase para palabras ocultas */
@@ -49,4 +50,9 @@
 
 span {
   cursor: pointer;
+}
+
+.selected-word {
+  /* background-color: green; Cambia el color de fondo a verde cuando seleccionada */
+  color: rgb(0, 170, 0); /* Cambia el color del texto a blanco o el que desees */
 }

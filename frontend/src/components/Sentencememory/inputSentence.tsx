@@ -1,14 +1,14 @@
 // import './SentenceMemory.css';
 import React, { useState } from 'react';
 
-export const InputSentence = () => {
-  const [sentenceToSave, setSentenceToSave] = useState("")
-  const [sentenceToArray, setSentenceToArray] = useState([])
+export const InputSentence = ({nextSettings, setSentenceToSave}) => {
+  const [sentenceToArray, setSentenceToArray] = useState("")
 
-  const parseSentence = () => {
-    let sentence = sentenceToSave.split(" ")
-    setSentenceToArray(sentence)
+  const nextStep = () => {
+    let sentence = sentenceToArray.split(" ")
+    setSentenceToSave(sentence)
     console.log("sentenceToArray", sentenceToArray)
+    nextSettings()
   }
 
   return (
@@ -19,15 +19,15 @@ export const InputSentence = () => {
         <input
           type="text"
           placeholder="Oración"
-          value={sentenceToSave}
-          onChange={(e) => setSentenceToSave(e.target.value)}
+          value={sentenceToArray}
+          onChange={(e) => setSentenceToArray(e.target.value)}
           style={{marginRight: '10px'}}
         />
-        <button onClick={parseSentence}>
+        <button onClick={nextStep}>
           Siguiente
         </button>
       </div>
-      <p className="sentence-preview">{sentenceToSave}</p>
+      <p className="sentence-preview">{sentenceToArray}</p>
     </div>
   );
 }

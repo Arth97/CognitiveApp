@@ -2,12 +2,15 @@ import './SentenceMemory.css';
 import React, { useState } from 'react';
 
 import { InputSentence } from '../components/Sentencememory/inputSentence';
+import { SelectWords } from '../components/Sentencememory/selectWords';
 
 export const SentenceMemory = () => {
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
+  const [settings, setSettings] = useState(1);
 
   const [saveNewSentence, setSaveNewSentence] = useState(false);
+  const [sentenceToSave, setSentenceToSave] = useState([])
 
   const [words, setWords] = useState({
     word1: '',
@@ -60,10 +63,17 @@ export const SentenceMemory = () => {
     //style={{position: 'fixed', top: '20px', right: '20px', z-index: '1000'}}
   };
 
+  const nextSettings = () => {
+    setSettings(settings+1)
+  }
+
   return (
     <div className="main-container">
-      {saveNewSentence && (
-        <InputSentence />
+      {saveNewSentence && (settings===1) && (
+        <InputSentence nextSettings={nextSettings} setSentenceToSave={setSentenceToSave} />
+      )}
+      {saveNewSentence && (settings===2) && (
+        <SelectWords sentenceToSave={sentenceToSave} />
       )}
       {!saveNewSentence && (
         <>      
