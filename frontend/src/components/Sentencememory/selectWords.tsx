@@ -23,21 +23,20 @@ export const SelectWords = ({ sentenceToSave }) => {
       // TODO Hacer algo después de guardar los datos, si es necesario
     });
   };
-  
 
   return (
     <div className="main-container">
       <div className="challenge">
         <h2>NUEVA ORACIÓN</h2>
         <p>Selecciona las palabras que deseas resaltar:</p>
-        <button onClick={null}>Guardar</button>
+        <button onClick={saveNewData}>Guardar</button>
       </div>
       <p className="sentence-preview">
         {sentenceToSave.map((word, index) => (
           <span
             key={index}
             className={isWordSelected(word) ? 'selected-word' : ''}
-            onClick={() => toggleSelectedWord(saveNewData)}
+            onClick={() => toggleSelectedWord(word)}
             style={{ marginRight: '10px' }}
           >
             {word}
