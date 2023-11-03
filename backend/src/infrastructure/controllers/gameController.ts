@@ -1,4 +1,4 @@
-import { GameUseCase } from '../../application/gameUseCase'
+import { GameUseCase } from '../../application/game/gameUseCase'
 
 export class GameController {
   constructor (private readonly _gameUseCase: GameUseCase) {
@@ -35,9 +35,9 @@ export class GameController {
     }
   }
 
-  public createNewGame = (req, res) => {
+  public createNewGameData = (req, res) => {
     try {
-      const game = this._gameUseCase.createNewGame(req.body)
+      const game = this._gameUseCase.createNewGameData(req.body)
       res.status(200).send({
         status: 'OK',
         data: { data: game }

@@ -14,6 +14,7 @@ export const SelectWords = ({ sentenceToSave }) => {
     } else {
       setSelectedWords([...selectedWords, word]);
     }
+    console.log("selectedWords", selectedWords)
   };
 
   const isWordSelected = (word) => selectedWords.includes(word);

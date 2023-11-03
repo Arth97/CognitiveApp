@@ -71,9 +71,9 @@ class MongoGameRepository implements IGameRepository {
     }
   }
 
-  createNewGame (game): Promise<IGameEntity> {
+  saveGameData (gameData): Promise<any> {
     try {
-      const createdGame = GameModel.create(game)
+      const createdGame = GameModel.create(gameData)
       return createdGame
     } catch (err) {
       console.log('err', err)
