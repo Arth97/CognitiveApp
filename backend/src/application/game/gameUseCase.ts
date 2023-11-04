@@ -1,14 +1,13 @@
-import { IGameDataStrategy, IGameRepository } from '../../domain/game/gameRepository'
+import { IGameRepository } from '../../domain/game/gameRepository'
 // import { GameValue } from '../../domain/game/gameValue'
 import { GameDataContext } from './gameDataContext'
+import { StrategyForGameA, StrategyForGameB } from './gameStrategy'
 
 export class GameUseCase {
   constructor (
-    private readonly _gameRepository: IGameRepository,
-    private readonly _gameDataStrategy: IGameDataStrategy
+    private readonly _gameRepository: IGameRepository
   ) {
     this._gameRepository = _gameRepository
-    this._gameDataStrategy = _gameDataStrategy
   }
 
   public async getAllGames () {
