@@ -1,7 +1,7 @@
 import { IGameRepository } from '../../domain/game/gameRepository'
 // import { GameValue } from '../../domain/game/gameValue'
 import { GameDataContext } from './gameDataContext'
-import { StrategyForGameA, StrategyForGameB } from './gameStrategy'
+import { StrategyForSentenceMemory, StrategyForGameB } from './gameStrategy'
 
 export class GameUseCase {
   constructor (
@@ -25,20 +25,21 @@ export class GameUseCase {
     return game
   }
 
-  public createNewGameData (gameData) {
+  public saveNewGameData (gameData) {
+    console.log('gamedata', gameData)
     const { type } = gameData
 
     const gameDataContext = new GameDataContext()
 
-    if (type === 'GameA') {
-      gameDataContext.setStrategy(new StrategyForGameA())
+    if (type === 'sentenceMemory') {
+      gameDataContext.setStrategy(new StrategyForSentenceMemory())
     } else if (type === 'GameB') {
       gameDataContext.setStrategy(new StrategyForGameB())
     } else {
       throw new Error('Unknown game type.')
     }
 
-    return gameDataContext.saveGameData(gameData)
+    return gameDataContext.saveNewGameData(gameData)
       .then((res) => { return res })
       .catch((err) => { throw err })
   }

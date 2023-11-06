@@ -1,10 +1,10 @@
 import { IGameEntity } from '../../domain/game/gameEntity'
-import { IGameRepository } from '../../domain/game/gameRepository'
+import { IGameDataStrategy, IGameRepository } from '../../domain/game/gameRepository'
 import { IUserEntity } from '../../domain/user/userEntity'
 import { IUserRepository } from '../../domain/user/userRepository'
 import { IResultEntity } from '../../domain/result/resultEntity'
 import { IResultRepository } from '../../domain/result/resultRepository'
-import GameModel from '../model/gameModel'
+import { SentenceMemoryModel } from '../model/gameModel'
 import UserModel from '../model/userModel'
 import ResultModel from '../model/resultModel'
 
@@ -50,28 +50,30 @@ class MongoUserRepository implements IUserRepository {
 *   GAME REPOSITORY
 */
 // #region
-class MongoGameRepository implements IGameRepository {
+class MongoGameRepository implements IGameRepository, IGameDataStrategy {
   getAllGames (): Promise<IGameEntity[]> {
-    try {
-      const allGames = GameModel.find()
-      return allGames
-    } catch (err) {
-      console.log('err', err)
-      throw new Error('Internal server error')
-    }
+    // try {
+    //   const allGames = GameModel.find()
+    //   return allGames
+    // } catch (err) {
+    //   console.log('err', err)
+    //   throw new Error('Internal server error')
+    // }
+    throw new Error('Method not implemented.')
   }
 
   startNewGame (gameId): Promise<IGameEntity> {
-    try {
-      const game = GameModel.findOne({ _id: gameId })
-      return game
-    } catch (err) {
-      console.log('err', err)
-      throw new Error('Internal server error')
-    }
+    // try {
+    //   const game = GameModel.findOne({ _id: gameId })
+    //   return game
+    // } catch (err) {
+    //   console.log('err', err)
+    //   throw new Error('Internal server error')
+    // }
+    throw new Error('Method not implemented.')
   }
 
-  saveGameData (gameData): Promise<any> {
+  saveNewGameData (gameData): Promise<any> {
     try {
       const createdGame = GameModel.create(gameData)
       return createdGame
