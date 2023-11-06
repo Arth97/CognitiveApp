@@ -20,7 +20,8 @@ export const SelectWords = ({ sentenceToSave }) => {
   const isWordSelected = (word) => selectedWords.includes(word);
 
   const saveNewData = () => {
-    gameApi.saveChallenge({ selectedWords, sentenceToSave }).then(() => {
+    gameApi.saveGameData({ type: 'sentenceMemory', selectedWords, sentenceToSave }).then((res) => {
+      console.log("res", res)
       // TODO Hacer algo después de guardar los datos, si es necesario
     });
   };

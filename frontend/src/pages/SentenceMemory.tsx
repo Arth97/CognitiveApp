@@ -1,8 +1,8 @@
 import './SentenceMemory.css';
 import React, { useState } from 'react';
 
-import { InputSentence } from '../components/Sentencememory/inputSentence';
-import { SelectWords } from '../components/Sentencememory/selectWords';
+import { InputSentence } from '../components/SentenceMemory/inputSentence';
+import { SelectWords } from '../components/SentenceMemory/selectWords';
 
 export const SentenceMemory = () => {
   const [level, setLevel] = useState(1);

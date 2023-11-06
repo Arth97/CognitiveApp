@@ -10,6 +10,9 @@ const ResultSchema = new Schema<IResultEntity>({
   time: { type: Number/* , required: true  */ }
 })
 
+// Probar si lo siguiente funcionaria igual
+// const ResultSchema = new Schema<IResultEntity>()
+
 const ResultModel = model<IResultEntity>('Result', ResultSchema)
 
 export default ResultModel

@@ -1,5 +1,5 @@
 export class IGameEntity {
   name: string
-  time: number
+  time?: number
   challengeType? :string
 }

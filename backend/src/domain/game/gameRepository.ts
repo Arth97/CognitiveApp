@@ -6,5 +6,5 @@ export interface IGameRepository {
 }
 
 export interface IGameDataStrategy {
-  saveGameData(gameData: any): Promise<any>;
+  saveNewGameData(gameData: any): Promise<any>;
 }

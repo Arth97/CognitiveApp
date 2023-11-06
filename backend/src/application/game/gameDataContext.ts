@@ -8,10 +8,10 @@ export class GameDataContext {
     this.strategy = strategy
   }
 
-  saveGameData (gameData: any): Promise<any> {
+  saveNewGameData (gameData: any): Promise<any> {
     if (!this.strategy) {
       throw new Error('Strategy not set.')
     }
-    return this.strategy.saveGameData(gameData)
+    return this.strategy.saveNewGameData(gameData)
   }
 }

@@ -67,13 +67,13 @@ class ScoreApi {
 }
 
 class GameApi {
-  saveChallenge(data) {
+  saveGameData(data) {
     return axios
       .post('http://localhost:3001/api/games', {
         data
       })
       .then((response) => {
-        // console.log('Puntuación guardada:', response.data);
+        console.log('Datos guardados:', response.data);
       })
       .catch((error) => {
         console.error('Error al guardar los datos:', error);
