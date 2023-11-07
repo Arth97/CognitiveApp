@@ -4,9 +4,9 @@ import { IUserEntity } from '../../domain/user/userEntity'
 import { IUserRepository } from '../../domain/user/userRepository'
 import { IResultEntity } from '../../domain/result/resultEntity'
 import { IResultRepository } from '../../domain/result/resultRepository'
-import { SentenceMemoryModel } from '../model/gameModel'
-import UserModel from '../model/userModel'
-import ResultModel from '../model/resultModel'
+import { SentenceMemoryModel } from '../../domain/model/gameModel'
+import UserModel from '../../domain/model/userModel'
+import ResultModel from '../../domain/model/resultModel'
 
 /**
 *   USER REPOSITORY

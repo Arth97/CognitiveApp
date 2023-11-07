@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { IUserEntity } from '../../domain/user/userEntity'
+import { IUserEntity } from '../user/userEntity'
 
 const UserSchema = new Schema<IUserEntity>({
   username: {

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { IResultEntity } from '../../domain/result/resultEntity'
+import { IResultEntity } from '../result/resultEntity'
 
 const ResultSchema = new Schema<IResultEntity>({
   // userId: { type: mongoose.Schema.Types.ObjectId, required: true },
