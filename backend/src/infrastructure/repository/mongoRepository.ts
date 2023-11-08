@@ -4,9 +4,9 @@ import { IUserEntity } from '../../domain/user/userEntity'
 import { IUserRepository } from '../../domain/user/userRepository'
 import { IResultEntity } from '../../domain/result/resultEntity'
 import { IResultRepository } from '../../domain/result/resultRepository'
-import { SentenceMemoryModel } from '../../domain/model/gameModel'
-import UserModel from '../../domain/model/userModel'
-import ResultModel from '../../domain/model/resultModel'
+// import { SentenceMemoryModel } from '../../domain/models/gameModel'
+import UserModel from '../../domain/models/userModel'
+import ResultModel from '../../domain/models/resultModel'
 
 /**
 *   USER REPOSITORY
@@ -73,9 +73,18 @@ class MongoGameRepository implements IGameRepository, IGameDataStrategy {
     throw new Error('Method not implemented.')
   }
 
-  saveNewGameData (gameData): Promise<any> {
+  async getGameDataByName (model, gameName): Promise<any> {
     try {
-      const createdGame = GameModel.create(gameData)
+      const result = await model.find({ name: gameName })
+      console.log('Datos encontrados:', result)
+    } catch (error) {
+      console.error('Error al buscar datos:', error)
+    }
+  }
+
+  saveNewGameData (model, gameData): Promise<any> {
+    try {
+      const createdGame = model.create(gameData)
       return createdGame
     } catch (err) {
       console.log('err', err)

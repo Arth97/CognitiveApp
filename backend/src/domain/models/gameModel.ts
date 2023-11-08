@@ -14,22 +14,16 @@ import { Schema, model } from 'mongoose'
 // export default GameModel
 
 const BaseGameSchema = new Schema({
-  name: String,
-  time: Number
+  name: String
 })
-const BaseGameModel = model('game', BaseGameSchema)
+const BaseGameModel = model('Game', BaseGameSchema)
 
 const SentenceMemorySchema = new Schema({
-  type: { type: String, default: 'SentenceMemory' },
+  name: { type: String, default: 'SentenceMemory' },
   selectedWords: [String],
   sentenceToSave: [String]
 })
-const SentenceMemoryModel = model('SentenceMemory', SentenceMemorySchema)
-
 // Discriminator para modelos que heredan de otro modelo
-// const SentenceMemoryModel = BaseGameModel.discriminator(
-//   'SentenceMemory',
-//   SentenceMemorySchema
-// )
+const SentenceMemoryModel = BaseGameModel.discriminator('SentenceMemory', SentenceMemorySchema)
 
 export { BaseGameModel, SentenceMemoryModel }

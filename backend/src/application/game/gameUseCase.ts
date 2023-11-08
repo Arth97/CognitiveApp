@@ -1,11 +1,11 @@
-import { IGameRepository } from '../../domain/game/gameRepository'
+import { IGameDataStrategy, IGameRepository } from '../../domain/game/gameRepository'
 // import { GameValue } from '../../domain/game/gameValue'
 import { GameDataContext } from './gameDataContext'
 import { StrategyForSentenceMemory, StrategyForGameB } from './gameStrategy'
 
 export class GameUseCase {
   constructor (
-    private readonly _gameRepository: IGameRepository
+    private readonly _gameRepository: IGameRepository & IGameDataStrategy
   ) {
     this._gameRepository = _gameRepository
   }
@@ -26,15 +26,15 @@ export class GameUseCase {
   }
 
   public saveNewGameData (gameData) {
-    console.log('gamedata', gameData)
+    // console.log('gamedata', gameData)
     const { type } = gameData
 
     const gameDataContext = new GameDataContext()
 
     if (type === 'sentenceMemory') {
-      gameDataContext.setStrategy(new StrategyForSentenceMemory())
+      gameDataContext.setStrategy(new StrategyForSentenceMemory(this._gameRepository))
     } else if (type === 'GameB') {
-      gameDataContext.setStrategy(new StrategyForGameB())
+      gameDataContext.setStrategy(new StrategyForGameB(this._gameRepository))
     } else {
       throw new Error('Unknown game type.')
     }

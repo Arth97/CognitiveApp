@@ -37,7 +37,7 @@ export class GameController {
 
   public saveNewGameData = (req, res) => {
     try {
-      const game = this._gameUseCase.saveNewGameData(req.body)
+      const game = this._gameUseCase.saveNewGameData(req.body.data)
       res.status(200).send({
         status: 'OK',
         data: { data: game }

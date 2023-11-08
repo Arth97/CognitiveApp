@@ -12,6 +12,6 @@ export class GameDataContext {
     if (!this.strategy) {
       throw new Error('Strategy not set.')
     }
-    return this.strategy.saveNewGameData(gameData)
+    return this.strategy.saveNewGameData(null, gameData)
   }
 }
