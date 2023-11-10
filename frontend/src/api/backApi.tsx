@@ -67,6 +67,17 @@ class ScoreApi {
 }
 
 class GameApi {
+  getGameDataByname(gameName) {
+    return axios
+      .get(`http://localhost:3001/api/games/gameData/${gameName}`)
+      .then((response) => {
+        return response.data.data
+      })
+      .catch((error) => {
+        console.error('Error al obtener las puntuaciones:', error);
+      });
+  }
+
   saveGameData(data) {
     return axios
       .post('http://localhost:3001/api/games', {

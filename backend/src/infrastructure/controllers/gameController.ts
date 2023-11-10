@@ -35,6 +35,21 @@ export class GameController {
     }
   }
 
+  public getGameDataByName = async (req, res) => {
+    try {
+      const gameData = await this._gameUseCase.getGameDataByName(req.params)
+      res.status(200).send({
+        status: 'OK',
+        data: { data: gameData }
+      })
+    } catch (err) {
+      res.status(err?.status || 500).send({
+        status: 'FAILED',
+        data: { error: err?.message || err }
+      })
+    }
+  }
+
   public saveNewGameData = (req, res) => {
     try {
       const game = this._gameUseCase.saveNewGameData(req.body.data)

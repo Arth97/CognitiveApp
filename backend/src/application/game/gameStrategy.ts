@@ -1,11 +1,13 @@
-import { IGameDataStrategy } from '../../domain/game/gameRepository'
+import { IGameDataStrategy, IGameRepository } from '../../domain/game/gameRepository'
 import { SentenceMemoryModel } from '../../domain/models/gameModel'
 
 export class StrategyForSentenceMemory implements IGameDataStrategy {
   constructor (
-    private readonly _gameRepository: IGameDataStrategy
+    private readonly _gameRepository: IGameRepository,
+    private readonly _gameStrategyRepository: IGameDataStrategy
   ) {
     this._gameRepository = _gameRepository
+    this._gameStrategyRepository = _gameStrategyRepository
   }
 
   getGameDataByName (model: any, gameName: any): Promise<any> {
@@ -14,8 +16,8 @@ export class StrategyForSentenceMemory implements IGameDataStrategy {
 
   async saveNewGameData (_, gameData): Promise<any> {
     try {
-      await this._gameRepository.getGameDataByName(SentenceMemoryModel, 'SentenceMemory')
-      return this._gameRepository.saveNewGameData(SentenceMemoryModel, gameData)
+      await this._gameRepository.getGameDataByName('SentenceMemory')
+      return this._gameStrategyRepository.saveNewGameData(SentenceMemoryModel, gameData)
     } catch (err) {
       console.log('err', err)
       throw err

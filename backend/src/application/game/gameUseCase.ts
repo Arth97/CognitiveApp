@@ -25,6 +25,16 @@ export class GameUseCase {
     return game
   }
 
+  public async getGameDataByName ({ gameName }) {
+    try {
+      const allGames = await this._gameRepository.getGameDataByName(gameName)
+      return allGames
+    } catch (err) {
+      console.log('err', err)
+      throw err
+    }
+  }
+
   public saveNewGameData (gameData) {
     // console.log('gamedata', gameData)
     const { type } = gameData
@@ -32,7 +42,7 @@ export class GameUseCase {
     const gameDataContext = new GameDataContext()
 
     if (type === 'sentenceMemory') {
-      gameDataContext.setStrategy(new StrategyForSentenceMemory(this._gameRepository))
+      gameDataContext.setStrategy(new StrategyForSentenceMemory(this._gameRepository, this._gameRepository))
     } else if (type === 'GameB') {
       gameDataContext.setStrategy(new StrategyForGameB(this._gameRepository))
     } else {

@@ -12,6 +12,7 @@ const gameController = new GameController(gameUseCase)
 
 router.get('/', gameController.getAllGames)
 router.get('/:gameId', gameController.startNewGame)
+router.get('/gameData/:gameName', gameController.getGameDataByName)
 router.post('/', gameController.saveNewGameData)
 
 export default router
