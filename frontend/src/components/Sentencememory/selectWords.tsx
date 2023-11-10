@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { GameApi } from '../../api/backApi';
 
-export const SelectWords = ({ sentenceToSave }) => {
+export const SelectWords = ({ setSettings, sentenceToSave, setSaveNewSentence }) => {
   const [selectedWords, setSelectedWords] = useState([]);
 
   const gameApi = new GameApi();
@@ -24,6 +24,8 @@ export const SelectWords = ({ sentenceToSave }) => {
       console.log("res", res)
       // TODO Hacer algo después de guardar los datos, si es necesario
     });
+    setSettings(0)
+    setSaveNewSentence(false)
   };
 
   return (

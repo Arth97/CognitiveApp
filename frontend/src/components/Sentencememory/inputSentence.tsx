@@ -1,14 +1,14 @@
 // import './SentenceMemory.css';
 import React, { useState } from 'react';
 
-export const InputSentence = ({nextSettings, setSentenceToSave}) => {
+export const InputSentence = ({setSettings, setSentenceToSave}) => {
   const [sentenceToArray, setSentenceToArray] = useState("")
 
   const nextStep = () => {
     let sentence = sentenceToArray.split(" ")
     setSentenceToSave(sentence)
     console.log("sentenceToArray", sentenceToArray)
-    nextSettings()
+    setSettings(2)
   }
 
   return (
