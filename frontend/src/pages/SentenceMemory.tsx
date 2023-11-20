@@ -1,8 +1,9 @@
 import './SentenceMemory.css';
 import React, { useEffect, useState } from 'react';
 
-import { InputSentence } from '../components/SentenceMemory/inputSentence';
-import { SelectWords } from '../components/SentenceMemory/selectWords';
+import { InputSentence } from '../components/Sentencememory/inputSentence';
+import { SelectWords } from '../components/Sentencememory/selectWords';
+
 import { GameApi } from '../api/backApi';
 
 export const SentenceMemory = () => {
@@ -13,6 +14,7 @@ export const SentenceMemory = () => {
 
   const [selectedSentenceIds, setSelectedSentenceIds] = useState([]);
   const [currentSentence, setcurrentSentence] = useState("");
+  const [userInputSentence, setUserInputSentence] = useState([]);
   const [missingSentence, setMissingSentence] = useState("");
   const [hiddenWords, setHiddenWords] = useState([]);
   const [selectedHiddenWords, setSelectedHiddenWords] = useState([]);
@@ -25,7 +27,7 @@ export const SentenceMemory = () => {
   const startChallenge = async () => {
     if (!gameStarted) {
       const allSentences = await gameApi.getGameDataByname('SentenceMemory');
-      console.log("Sentences", allSentences)
+      // console.log("Sentences", allSentences)
       
       const availableSentences = allSentences.data.filter(sentence => !selectedSentenceIds.includes(sentence._id))
       const selectedSentence = availableSentences[Math.floor(Math.random() * availableSentences.length)]      
@@ -59,7 +61,7 @@ export const SentenceMemory = () => {
   useEffect(() => {
     // Llama a la función para crear la oración faltante y actualiza el estado
     if (currentSentence && selectedHiddenWords.length > 0) {
-      setMissingSentence(createMissingSentence(currentSentence, selectedHiddenWords));
+      // setMissingSentence(createMissingSentence(currentSentence, selectedHiddenWords));
     }
   }, [currentSentence, selectedHiddenWords]); // Activa el efecto cuando estas variables cambian
 
@@ -71,7 +73,7 @@ export const SentenceMemory = () => {
   
     // Iteramos por cada palabra en la oración actual
     const missingSentence = words.map((word) => {
-      console.log("word", word)
+      // console.log("word", word)
       // Si la palabra está en la lista de palabras ocultas, la reemplazamos con espacios en blanco
       if (hiddenWords.includes(word)) {
         return '___'; // Espacio en blanco para ocultar la palabra
@@ -81,7 +83,7 @@ export const SentenceMemory = () => {
     });
   
     // Juntamos las palabras para formar la oración
-    console.log("missingSentence", missingSentence)
+    // console.log("missingSentence", missingSentence)
     return missingSentence.join(' ');
   };
 
@@ -89,7 +91,8 @@ export const SentenceMemory = () => {
     const randomWords = [];
     let hiddenWordCount = 0;
     let wordsCopy = selectedSentence.selectedWords.slice();
-    hiddenWordCount = Math.min(Math.floor(Math.random() * (wordsCopy.length - 3)) + 4, wordsCopy.length);
+    // hiddenWordCount = Math.min(Math.floor(Math.random() * (wordsCopy.length - 3)) + 4, wordsCopy.length);
+    hiddenWordCount = 4
     for (let i = 0; i < hiddenWordCount; i++) {
       const randomIndex = Math.floor(Math.random() * wordsCopy.length);
       randomWords.push(wordsCopy[randomIndex]);
@@ -101,10 +104,31 @@ export const SentenceMemory = () => {
   };
 
   const checkAnswers = () => {
-    if (
-      null
-    ) {
+    console.log("userInputSentence", userInputSentence)
+    console.log("currentSentence", currentSentence.split(' '))
+    if ( userInputSentence.join(' ') === currentSentence ) {
+      console.log("Deee lujooooooo")
       setScore(score + 1);
+    } else {
+      console.log("Mierda")
+    }
+
+    let incorrectWordIndex = -1;
+    // Itera a través de cada palabra en los arrays
+    for (let i = 0; i < userInputSentence.length; i++) {
+      // Compara las palabras en la posición actual
+      if (userInputSentence[i] !== currentSentence.split(' ')[i]) {
+        // Si las palabras no coinciden, almacena la posición de la palabra incorrecta
+        incorrectWordIndex = i;
+        break; // Puedes detener el bucle ya que has encontrado la palabra incorrecta
+      }
+    }
+
+    // Verifica si se encontró una palabra incorrecta
+    if (incorrectWordIndex !== -1) {
+      console.log(`La palabra incorrecta es: ${userInputSentence[incorrectWordIndex]}`);
+    } else {
+      console.log('Todas las palabras son correctas.');
     }
   };
 
@@ -167,18 +191,19 @@ export const SentenceMemory = () => {
               <h2>Nivel 2: Completa la Oración</h2>
               <p>Completa la siguiente oración:</p>
               <div>
-                {missingSentence.split(' ').map((word, index) => {
-                  if (word === "___") {
+                {currentSentence.split(' ').map((word, index) => {
+                  if (selectedHiddenWords.includes(word)) {
                     return (
                       <span key={index}>
                         <input
                           type="text"
-                          placeholder={`Palabra ${index + 1}`}
+                          placeholder={``}
                           onChange={(e) => {
-                            const updatedSentence = missingSentence.split(' ');
+                            const updatedSentence = currentSentence.split(' ');
                             updatedSentence[index] = e.target.value;
-                            const newMissingSentence = updatedSentence.join(' ');
-                            setMissingSentence(newMissingSentence);
+                            setUserInputSentence(updatedSentence)
+                            // const newMissingSentence = updatedSentence.join(' ');
+                            //setMissingSentence(newMissingSentence);
                           }}
                         />{' '}
                       </span>
