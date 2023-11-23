@@ -15,8 +15,6 @@ export const SentenceMemory = () => {
   const [selectedSentenceIds, setSelectedSentenceIds] = useState([]);
   const [currentSentence, setcurrentSentence] = useState("");
   const [userInputSentence, setUserInputSentence] = useState([]);
-  const [missingSentence, setMissingSentence] = useState("");
-  const [hiddenWords, setHiddenWords] = useState([]);
   const [selectedHiddenWords, setSelectedHiddenWords] = useState([]);
 
   const [saveNewSentence, setSaveNewSentence] = useState(false);
@@ -46,47 +44,28 @@ export const SentenceMemory = () => {
       setLevel(1)
       console.log("currentSentence", currentSentence)
       return;
-    }
+    }    
+  };
+
+  const nextStep = () => {
     if (level === 1) {
       setLevel(2);
-      setUserInputSentence(currentSentence.split(' '))
+      let auxSentence = currentSentence.split(' ');
+      auxSentence = auxSentence.map(word => selectedHiddenWords.includes(word) ? '___' : word)
+      setUserInputSentence(auxSentence)
+      console.log("userInputSentence", userInputSentence)
     } else if (level === 2) {
-      checkAnswers();
-      setLevel(3);
+      console.log("userInputSentence", userInputSentence)
+      const correctAnswer = checkAnswers();
+      if (correctAnswer)
+        setLevel(1)
+      else
+        setLevel(3);
     } else if (level === 3) {
-      resetChallenge();
       setLevel(1);
+      setScore(0);
     }
-  };
-
-  useEffect(() => {
-    // Llama a la función para crear la oración faltante y actualiza el estado
-    if (currentSentence && selectedHiddenWords.length > 0) {
-      // setMissingSentence(createMissingSentence(currentSentence, selectedHiddenWords));
-    }
-  }, [currentSentence, selectedHiddenWords]); // Activa el efecto cuando estas variables cambian
-
-
-  const createMissingSentence = (currentSentence, hiddenWords) => {
-    console.log("currentSentence", currentSentence)
-    // Partimos la oración actual por los espacios en blanco para tener cada palabra
-    const words = currentSentence.split(' ');
-  
-    // Iteramos por cada palabra en la oración actual
-    const missingSentence = words.map((word) => {
-      // console.log("word", word)
-      // Si la palabra está en la lista de palabras ocultas, la reemplazamos con espacios en blanco
-      if (hiddenWords.includes(word)) {
-        return '___'; // Espacio en blanco para ocultar la palabra
-      } else {
-        return word; // Mantenemos la palabra original
-      }
-    });
-  
-    // Juntamos las palabras para formar la oración
-    // console.log("missingSentence", missingSentence)
-    return missingSentence.join(' ');
-  };
+  }
 
   const setRandomHiddenWords = (selectedSentence) => {
     const randomWords = [];
@@ -105,30 +84,17 @@ export const SentenceMemory = () => {
   };
 
   const checkAnswers = () => {
-    console.log("userInputSentence", userInputSentence);
-    console.log("currentSentence", currentSentence.split(' '));
-  
-    // Compara todas las palabras
     const areWordsCorrect = userInputSentence.every((word, index) => word === currentSentence.split(' ')[index]);
-  
     if (areWordsCorrect) {
       console.log("Deee lujooooooo");
       setScore(score + 1);
+      return true;
     } else {
       console.log("Mierda");
-      
-      // Encuentra e indica las palabras incorrectas
-      console.log("userInputSentence", userInputSentence)
-      console.log("currentSentence", currentSentence)
       const incorrectWords = userInputSentence.filter((word, index) => word !== currentSentence.split(' ')[index]);
-      console.log("incorrectWords", incorrectWords)
       console.log(`Las palabras incorrectas son: ${incorrectWords.join(', ')}`);
+      return false;
     }
-  };
-
-  const resetChallenge = () => {
-    setScore(0);
-    //style={{position: 'fixed', top: '20px', right: '20px', z-index: '1000'}}
   };
 
   return (
@@ -137,7 +103,7 @@ export const SentenceMemory = () => {
         <>      
           <button onClick={() => setSaveNewSentence(true)} style={{position: 'fixed', top: '20px', right: '20px', zIndex: '1000'}}>Guardar nueva oración</button>
           <div className="challenge">
-            <h2>Memorización</h2>
+            <h2>MEMORIZACIÓN</h2>
             <p>Recuerda la oración e indica las palabras que faltan</p>
             <button onClick={startChallenge}>
               Comenzar
@@ -155,19 +121,24 @@ export const SentenceMemory = () => {
         <>
           {level === 1 && (
             <>
-              <button onClick={() => setSaveNewSentence(true)} style={{position: 'fixed', top: '20px', right: '20px', zIndex: '1000'}}>Guardar nueva oración</button>
+              <button onClick={() => setSaveNewSentence(true)} style={{position: 'fixed', top: '20px', right: '20px', zIndex: '1000'}}>
+                Guardar nueva oración
+              </button>
               <div className="challenge">
-                <h2>Nivel {level}: Memorización</h2>
+                <h2>MEMORIZACIÓN</h2>
                 <p>Oración Inicial:</p>
                 <p>{currentSentence}</p>
-                <button onClick={startChallenge}>Siguiente</button>
+                <div style={{display: 'flex', }}>                  
+                  <button onClick={startChallenge && nextStep}>Siguiente</button>
+                  <p style={{marginLeft: '1em'}}>{score} puntos</p>
+                </div>
               </div>
             </>
           )}
 
           {level === 2 && (
             <div className="challenge">
-              <h2>Nivel 2: Completa la Oración</h2>
+              <h2>COMPLETE LA ORACIÓN</h2>
               <p>Completa la siguiente oración:</p>
               <div>
                 {currentSentence.split(' ').map((word, index) => {
@@ -192,15 +163,18 @@ export const SentenceMemory = () => {
                   }
                 })}
               </div>
-              <button onClick={startChallenge}>Verificar</button>
+              <div style={{display: 'flex', }}>                  
+                <button onClick={nextStep}>Verificar</button>
+                <p style={{marginLeft: '1em'}}>{score} puntos</p>
+              </div>
             </div>
           )}
 
           {level === 3 && (
             <div className="challenge">
-              <h2>Nivel 3: Resultados</h2>
+              <h2>RESULTADOS</h2>
               <p>Tu puntuación: {score}</p>
-              <button onClick={resetChallenge}>Reiniciar</button>
+              <button onClick={nextStep}>Reiniciar</button>
             </div>
           )}
         </>
