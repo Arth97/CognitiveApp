@@ -1,8 +1,8 @@
 import './SentenceMemory.css';
 import React, { useEffect, useState } from 'react';
 
-import { InputSentence } from '../components/Sentencememory/inputSentence';
-import { SelectWords } from '../components/Sentencememory/selectWords';
+import { InputSentence } from '../components/SentenceMemory/inputSentence';
+import { SelectWords } from '../components/SentenceMemory/selectWords';
 
 import { GameApi } from '../api/backApi';
 
@@ -49,6 +49,7 @@ export const SentenceMemory = () => {
     }
     if (level === 1) {
       setLevel(2);
+      setUserInputSentence(currentSentence.split(' '))
     } else if (level === 2) {
       checkAnswers();
       setLevel(3);
@@ -104,31 +105,24 @@ export const SentenceMemory = () => {
   };
 
   const checkAnswers = () => {
-    console.log("userInputSentence", userInputSentence)
-    console.log("currentSentence", currentSentence.split(' '))
-    if ( userInputSentence.join(' ') === currentSentence ) {
-      console.log("Deee lujooooooo")
+    console.log("userInputSentence", userInputSentence);
+    console.log("currentSentence", currentSentence.split(' '));
+  
+    // Compara todas las palabras
+    const areWordsCorrect = userInputSentence.every((word, index) => word === currentSentence.split(' ')[index]);
+  
+    if (areWordsCorrect) {
+      console.log("Deee lujooooooo");
       setScore(score + 1);
     } else {
-      console.log("Mierda")
-    }
-
-    let incorrectWordIndex = -1;
-    // Itera a través de cada palabra en los arrays
-    for (let i = 0; i < userInputSentence.length; i++) {
-      // Compara las palabras en la posición actual
-      if (userInputSentence[i] !== currentSentence.split(' ')[i]) {
-        // Si las palabras no coinciden, almacena la posición de la palabra incorrecta
-        incorrectWordIndex = i;
-        break; // Puedes detener el bucle ya que has encontrado la palabra incorrecta
-      }
-    }
-
-    // Verifica si se encontró una palabra incorrecta
-    if (incorrectWordIndex !== -1) {
-      console.log(`La palabra incorrecta es: ${userInputSentence[incorrectWordIndex]}`);
-    } else {
-      console.log('Todas las palabras son correctas.');
+      console.log("Mierda");
+      
+      // Encuentra e indica las palabras incorrectas
+      console.log("userInputSentence", userInputSentence)
+      console.log("currentSentence", currentSentence)
+      const incorrectWords = userInputSentence.filter((word, index) => word !== currentSentence.split(' ')[index]);
+      console.log("incorrectWords", incorrectWords)
+      console.log(`Las palabras incorrectas son: ${incorrectWords.join(', ')}`);
     }
   };
 
@@ -171,21 +165,6 @@ export const SentenceMemory = () => {
             </>
           )}
 
-          {/* {level === 2 && (
-            <div className="challenge">
-              <h2>Nivel 2: Completa la Oración</h2>
-              <p>Completa la siguiente oración:</p>
-              <p>{missingSentence}</p> */}
-              {/* <input
-                type="text"
-                placeholder="Palabra 1"
-                value={words.word1}
-                onChange={(e) => setWords({ ...words, word1: e.target.value })}
-              /> */}
-              {/* <button onClick={startChallenge}>Verificar</button>
-            </div>
-          )} */}
-
           {level === 2 && (
             <div className="challenge">
               <h2>Nivel 2: Completa la Oración</h2>
@@ -199,7 +178,7 @@ export const SentenceMemory = () => {
                           type="text"
                           placeholder={``}
                           onChange={(e) => {
-                            const updatedSentence = currentSentence.split(' ');
+                            const updatedSentence = userInputSentence;
                             updatedSentence[index] = e.target.value;
                             setUserInputSentence(updatedSentence)
                             // const newMissingSentence = updatedSentence.join(' ');

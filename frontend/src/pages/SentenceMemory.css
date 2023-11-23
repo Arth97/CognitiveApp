@@ -33,19 +33,17 @@
   /* white-space: nowrap; */
 }
 
-/* Clase para palabras ocultas */
 .hidden-word {
-  color: transparent; /* Hace que el texto sea transparente */
-  background-color: transparent; /* Fondo transparente */
-  border: none; /* Elimina el borde */
-  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  color: transparent;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-/* Estilos para mostrar palabras ocultas al pasar el mouse */
 .hidden-word:hover {
   cursor: pointer;
-  color: initial; /* Restaura el color de texto original al pasar el mouse */
-  background-color: initial; /* Restaura el fondo original al pasar el mouse */
+  color: initial;
+  background-color: initial;
 }
 
 span {
@@ -53,22 +51,18 @@ span {
 }
 
 .selected-word {
-  /* background-color: green; Cambia el color de fondo a verde cuando seleccionada */
-  color: rgb(0, 170, 0); /* Cambia el color del texto a blanco o el que desees */
+  color: rgb(0, 170, 0);
 }
 
 .challenge input {  
-  border: 1px solid #007bff; /* Color del borde */
+  border: 1px solid #007bff;
   padding: 5px;
-  background-color: transparent; /* Fondo transparente */
-  color: #007bff; /* Color del texto */
-}
-
-.challenge input::placeholder {
-  color: #007bff; /* Color del texto de placeholder */
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
 }
 
 .challenge input:focus {
-  outline: none; /* Elimina el contorno al enfocar el input */
-  border: 2px solid #0056b3; /* Cambia el borde al enfocar el input */
+  outline: none;
+  border: 2px solid #0056b3;
 }
