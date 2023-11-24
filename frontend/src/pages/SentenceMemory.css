@@ -66,3 +66,11 @@ span {
   outline: none;
   border: 2px solid #0056b3;
 }
+
+.correct {  
+  border: 2.5px solid #39b300 !important;;
+}
+
+.incorrect {  
+  border: 2.5px solid #b30000 !important;
+}

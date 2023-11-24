@@ -16,6 +16,8 @@ export const SentenceMemory = () => {
   const [currentSentence, setcurrentSentence] = useState("");
   const [userInputSentence, setUserInputSentence] = useState([]);
   const [selectedHiddenWords, setSelectedHiddenWords] = useState([]);
+  const [wordStatus, setWordStatus] = useState([]);
+
 
   const [saveNewSentence, setSaveNewSentence] = useState(false);
   const [sentenceToSave, setSentenceToSave] = useState([])
@@ -53,12 +55,11 @@ export const SentenceMemory = () => {
       let auxSentence = currentSentence.split(' ');
       auxSentence = auxSentence.map(word => selectedHiddenWords.includes(word) ? '___' : word)
       setUserInputSentence(auxSentence)
-      console.log("userInputSentence", userInputSentence)
+      console.log("userInputSentence-auxSentence", auxSentence)
     } else if (level === 2) {
-      console.log("userInputSentence", userInputSentence)
       const correctAnswer = checkAnswers();
       if (correctAnswer)
-        setLevel(1)
+        setLevel(3)
       else
         setLevel(3);
     } else if (level === 3) {
@@ -96,6 +97,31 @@ export const SentenceMemory = () => {
       return false;
     }
   };
+
+  const getInputType = (index) => {
+    if (level===2) {
+      return (
+        <input
+          type="text"
+          placeholder={``}
+          onChange={(e) => {
+            const updatedSentence = userInputSentence;
+            updatedSentence[index] = e.target.value;
+            setUserInputSentence(updatedSentence)
+          }}
+        />
+      )
+    } else if (level===3) {
+      return (
+        <input
+          type="text"
+          placeholder={userInputSentence[index]==='___' ? '' : (userInputSentence[index] || '')}
+          className={userInputSentence[index] === currentSentence.split(' ')[index] ? 'correct' : 'incorrect'}
+          readOnly={true}
+        />
+      )
+    }
+  }
 
   return (
     <div className="main-container">
@@ -136,7 +162,7 @@ export const SentenceMemory = () => {
             </>
           )}
 
-          {level === 2 && (
+          {(level === 2 || level === 3) && (
             <div className="challenge">
               <h2>COMPLETE LA ORACIÓN</h2>
               <p>Completa la siguiente oración:</p>
@@ -145,17 +171,7 @@ export const SentenceMemory = () => {
                   if (selectedHiddenWords.includes(word)) {
                     return (
                       <span key={index}>
-                        <input
-                          type="text"
-                          placeholder={``}
-                          onChange={(e) => {
-                            const updatedSentence = userInputSentence;
-                            updatedSentence[index] = e.target.value;
-                            setUserInputSentence(updatedSentence)
-                            // const newMissingSentence = updatedSentence.join(' ');
-                            //setMissingSentence(newMissingSentence);
-                          }}
-                        />{' '}
+                        {getInputType(index)}{' '}
                       </span>
                     );
                   } else {
@@ -170,7 +186,7 @@ export const SentenceMemory = () => {
             </div>
           )}
 
-          {level === 3 && (
+          {level === 4 && (
             <div className="challenge">
               <h2>RESULTADOS</h2>
               <p>Tu puntuación: {score}</p>
