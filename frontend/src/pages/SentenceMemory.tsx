@@ -98,27 +98,32 @@ export const SentenceMemory = () => {
     }
   };
 
-  const getInputType = (index) => {
+  const getInputType = (word, index) => {
+    if (!selectedHiddenWords.includes(word)) return <span key={index}>{word} </span>;
     if (level===2) {
       return (
-        <input
-          type="text"
-          placeholder={``}
-          onChange={(e) => {
-            const updatedSentence = userInputSentence;
-            updatedSentence[index] = e.target.value;
-            setUserInputSentence(updatedSentence)
-          }}
-        />
+        <span key={index}>
+          <input
+            type="text"
+            placeholder={``}
+            onChange={(e) => {
+              const updatedSentence = userInputSentence;
+              updatedSentence[index] = e.target.value;
+              setUserInputSentence(updatedSentence)
+            }}
+          />{' '}
+        </span>
       )
     } else if (level===3) {
       return (
-        <input
-          type="text"
-          placeholder={userInputSentence[index]==='___' ? '' : (userInputSentence[index] || '')}
-          className={userInputSentence[index] === currentSentence.split(' ')[index] ? 'correct' : 'incorrect'}
-          readOnly={true}
-        />
+        <span key={index}>
+          <input
+            type="text"
+            placeholder={userInputSentence[index]==='___' ? '' : (userInputSentence[index] || '')}
+            className={userInputSentence[index] === currentSentence.split(' ')[index] ? 'correct' : 'incorrect'}
+            readOnly={true}
+          />{' '}
+        </span>
       )
     }
   }
@@ -168,15 +173,9 @@ export const SentenceMemory = () => {
               <p>Completa la siguiente oración:</p>
               <div>
                 {currentSentence.split(' ').map((word, index) => {
-                  if (selectedHiddenWords.includes(word)) {
-                    return (
-                      <span key={index}>
-                        {getInputType(index)}{' '}
-                      </span>
-                    );
-                  } else {
-                    return <span key={index}>{word} </span>;
-                  }
+                  return (
+                    getInputType(word, index)
+                  );                  
                 })}
               </div>
               <div style={{display: 'flex', }}>                  
