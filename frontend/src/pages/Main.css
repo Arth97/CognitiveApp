@@ -31,6 +31,19 @@
   max-height: 500px; /* Altura máxima para evitar que el gráfico sea demasiado alto */
 }
 
+.top-button-left {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.top-button-right {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
 
 @media (min-width: 1200px) {
   .chart-container {

@@ -6,6 +6,7 @@ import { InputSentence } from '../components/SentenceMemory/inputSentence';
 import { SelectWords } from '../components/SentenceMemory/selectWords';
 
 import { GameApi } from '../api/backApi';
+import { useNavigate } from 'react-router-dom';
 
 export const SentenceMemory = () => {
   const [level, setLevel] = useState(0);
@@ -22,6 +23,7 @@ export const SentenceMemory = () => {
   const [saveNewSentence, setSaveNewSentence] = useState(false);
   const [sentenceToSave, setSentenceToSave] = useState([])
 
+  const navigate = useNavigate();
   const gameApi = new GameApi();
 
   useEffect(() => {
@@ -140,8 +142,8 @@ export const SentenceMemory = () => {
     <div className="main-container">
       {!gameStarted && !saveNewSentence && (
         <>      
-          <button onClick={() => null} style={{position: 'fixed', top: '20px', left: '20px', zIndex: '1000'}}>Volver al menú</button>
-          <button onClick={() => setSaveNewSentence(true)} style={{position: 'fixed', top: '20px', right: '20px', zIndex: '1000'}}>Guardar nueva oración</button>
+          <button onClick={() => navigate('/home')} className='top-button-left'>Volver al menú</button>
+          <button onClick={() => setSaveNewSentence(true)} className='top-button-right'>Guardar nueva oración</button>
           <div className="challenge">
             <h2>MEMORIZACIÓN</h2>
             <p>Recuerda la oración e indica las palabras que faltan</p>
