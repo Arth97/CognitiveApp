@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './SentenceMemory.css';
 import React, { useEffect, useState } from 'react';
 
@@ -11,63 +12,48 @@ export const SentenceMemory = () => {
   const [score, setScore] = useState(0);
   const [settings, setSettings] = useState(1);
   const [gameStarted, setGameStarted] = useState(false);
-
+  const [allSentences, setAllSentences] = useState([]);
   const [selectedSentenceIds, setSelectedSentenceIds] = useState([]);
-  const [currentSentence, setcurrentSentence] = useState("");
+
+  const [currentSentence, setCurrentSentence] = useState("");
   const [userInputSentence, setUserInputSentence] = useState([]);
   const [selectedHiddenWords, setSelectedHiddenWords] = useState([]);
-  const [wordStatus, setWordStatus] = useState([]);
-
 
   const [saveNewSentence, setSaveNewSentence] = useState(false);
   const [sentenceToSave, setSentenceToSave] = useState([])
 
   const gameApi = new GameApi();
 
-  const startChallenge = async () => {
-    if (!gameStarted) {
-      const allSentences = await gameApi.getGameDataByname('SentenceMemory');
-      // console.log("Sentences", allSentences)
-      
-      const availableSentences = allSentences.data.filter(sentence => !selectedSentenceIds.includes(sentence._id))
-      const selectedSentence = availableSentences[Math.floor(Math.random() * availableSentences.length)]      
-      console.log("Selected Sentence", selectedSentence)
-      setSelectedSentenceIds(prevIds => [...prevIds, selectedSentence._id]);         
-      setcurrentSentence(selectedSentence.sentenceToSave.join(" "))
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sentences = await gameApi.getGameDataByname('SentenceMemory');
+        setAllSentences(sentences.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  },[])
 
-      if (selectedSentence.selectedWords.length>3)
-        setRandomHiddenWords(selectedSentence)
-      else setSelectedHiddenWords(selectedSentence.selectedWords)
+  const selectAndSetSentence = () => {
+    const availableSentences = allSentences.filter(sentence => !selectedSentenceIds.includes(sentence._id))
+    const selectedSentence = availableSentences[Math.floor(Math.random() * availableSentences.length)]
+    setSelectedSentenceIds(prevIds => [...prevIds, selectedSentence._id]);
+    setCurrentSentence(selectedSentence.sentenceToSave.join(" "))
 
-      console.log("currentSentencePre", currentSentence)
-      //setMissingSentence(createMissingSentence(currentSentence, selectedHiddenWords));
-
-      setGameStarted(true)
-      setLevel(1)
-      console.log("currentSentence", currentSentence)
-      return;
-    }    
-  };
-
-  const nextStep = () => {
-    if (level === 1) {
-      setLevel(2);
-      let auxSentence = currentSentence.split(' ');
-      auxSentence = auxSentence.map(word => selectedHiddenWords.includes(word) ? '___' : word)
-      setUserInputSentence(auxSentence)
-      console.log("userInputSentence-auxSentence", auxSentence)
-    } else if (level === 2) {
-      const correctAnswer = checkAnswers();
-      if (correctAnswer)
-        setLevel(3)
-      else
-        setLevel(3);
-    } else if (level === 3) {
-      setLevel(1);
-      setScore(0);
-    }
+    if (selectedSentence.selectedWords.length>3)
+      setRandomHiddenWords(selectedSentence)
+    else setSelectedHiddenWords(selectedSentence.selectedWords)
   }
 
+  const startChallenge = async () => {
+    selectAndSetSentence()
+    setGameStarted(true)
+    setLevel(1)
+    return; 
+  };
+  
   const setRandomHiddenWords = (selectedSentence) => {
     const randomWords = [];
     let hiddenWordCount = 0;
@@ -79,10 +65,32 @@ export const SentenceMemory = () => {
       randomWords.push(wordsCopy[randomIndex]);
       wordsCopy.splice(randomIndex, 1);
     }
-
     setSelectedHiddenWords(randomWords)
-    console.log("randomWords", randomWords);
   };
+
+  const nextStep = () => {
+    let correctAnswer;
+    if (level === 1) {
+      setLevel(2);
+      let auxSentence = currentSentence.split(' ');
+      auxSentence = auxSentence.map(word => selectedHiddenWords.includes(word) ? '___' : word)
+      setUserInputSentence(auxSentence)
+      console.log("hiddenWords", selectedHiddenWords)
+    } else if (level === 2) {
+      setLevel(3)
+    } else if (level === 3) {
+      correctAnswer = checkAnswers();
+      if (correctAnswer)
+        setLevel(1)
+      else
+        setLevel(4);
+      selectAndSetSentence()
+    } else if (level === 4) {
+      setLevel(1);
+      setScore(0);
+      // TODO: Programar el chart de puntuaciones
+    }
+  }
 
   const checkAnswers = () => {
     const areWordsCorrect = userInputSentence.every((word, index) => word === currentSentence.split(' ')[index]);
@@ -132,6 +140,7 @@ export const SentenceMemory = () => {
     <div className="main-container">
       {!gameStarted && !saveNewSentence && (
         <>      
+          <button onClick={() => null} style={{position: 'fixed', top: '20px', left: '20px', zIndex: '1000'}}>Volver al menú</button>
           <button onClick={() => setSaveNewSentence(true)} style={{position: 'fixed', top: '20px', right: '20px', zIndex: '1000'}}>Guardar nueva oración</button>
           <div className="challenge">
             <h2>MEMORIZACIÓN</h2>
@@ -159,7 +168,7 @@ export const SentenceMemory = () => {
                 <h2>MEMORIZACIÓN</h2>
                 <p>Oración Inicial:</p>
                 <p>{currentSentence}</p>
-                <div style={{display: 'flex', }}>                  
+                <div style={{display: 'flex', marginTop: '1em' }}>                  
                   <button onClick={startChallenge && nextStep}>Siguiente</button>
                   <p style={{marginLeft: '1em'}}>{score} puntos</p>
                 </div>
@@ -178,8 +187,8 @@ export const SentenceMemory = () => {
                   );                  
                 })}
               </div>
-              <div style={{display: 'flex', }}>                  
-                <button onClick={nextStep}>Verificar</button>
+              <div style={{display: 'flex', marginTop: '1em' }}>                  
+                <button onClick={nextStep}> {level===2 ? 'Verificar' : 'Siguiente'} </button>
                 <p style={{marginLeft: '1em'}}>{score} puntos</p>
               </div>
             </div>
@@ -189,7 +198,7 @@ export const SentenceMemory = () => {
             <div className="challenge">
               <h2>RESULTADOS</h2>
               <p>Tu puntuación: {score}</p>
-              <button onClick={nextStep}>Reiniciar</button>
+              <button style={{marginTop: '1em'}} onClick={nextStep}>Reiniciar</button>
             </div>
           )}
         </>
