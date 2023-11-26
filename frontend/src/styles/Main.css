@@ -59,6 +59,14 @@
   z-index: 1000;
 }
 
+.correct {  
+  border: 2.5px solid #39b300 !important;;
+}
+
+.incorrect {  
+  border: 2.5px solid #b30000 !important;
+}
+
 @media (min-width: 1200px) {
   .chart-container {
     max-height: 600px; /* Aumentar la altura máxima en pantallas grandes */

@@ -1,6 +1,8 @@
 // WordList.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GameApi, ScoreApi } from '../api/backApi';
+import { useUserInfoStore } from '../state/userState';
 
 const initialWordList = [
   'Palabra1', 'Palabra2', 'Palabra3', 'Palabra4', 'Palabra5',
@@ -8,44 +10,87 @@ const initialWordList = [
 ];
 
 export const WordList = () => {
-  const navigate = useNavigate();
   const [wordList, setWordList] = useState(initialWordList);
   const [userInput, setUserInput] = useState(Array(initialWordList.length).fill(''));
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [step, setStep] = useState(1);
+  const [allWordsCorrect, setAllWordsCorrect] = useState(false);
+
+  const { userInfo } = useUserInfoStore();
+
+  const navigate = useNavigate();
+  const gameApi = new GameApi();
+  const scoreApi = new ScoreApi();
 
   const handleStart = () => {
     setGameStarted(true);
+    setScore(0);
     setStep(2);
   };
 
   const handleNext = () => {
-    setStep(step + 1);
+    if (step===1) {
+      if (!gameStarted) handleStart()
+      //setUserInput(Array(wordList.length).fill(''));
+      setStep(step + 1);
+    }
+    else if (step===3) handleVerify()
+    else if (step === 4) {
+      if(allWordsCorrect) setStep(1)
+      else {setStep(5); saveScore();}
+    }
+    else if (step===5) setStep(1)
+    else setStep(step + 1);
   };
 
   const handleVerify = () => {
     const newScore = userInput.filter((input, index) => input.toLowerCase() === wordList[index].toLowerCase()).length;
-    setScore(newScore);
-
-    setUserInput(Array(wordList.length).fill(''));
+    setScore(score + newScore);
     setStep(step + 1);
+    setAllWordsCorrect(userInput.every((input, index) => input.toLowerCase() === wordList[index].toLowerCase()))    
   };
 
-  const renderWordInput = (index) => (
-    <input
-      key={index}
-      type="text"
-      placeholder="Introduce la palabra"
-      value={userInput[index]}
-      style={{ width: '174px' }}
-      onChange={(e) => {
-        const updatedUserInput = [...userInput];
-        updatedUserInput[index] = e.target.value;
-        setUserInput(updatedUserInput);
-      }}
-    />
-  );
+  const saveScore = () => {
+    scoreApi.saveScore({
+      userId: userInfo.id,
+      gameId: 'wordList',
+      score: score,
+      time: null
+    })
+    
+  }
+
+  const renderWordInput = (index) => {
+    if (step === 3) {
+      return (
+        <input
+          key={index}
+          type="text"
+          placeholder={`Introduce la palabra ${index+1}`}
+          value={userInput[index]}
+          style={{ width: '174px' }}
+          onChange={(e) => {
+            const updatedUserInput = [...userInput];
+            updatedUserInput[index] = e.target.value;
+            setUserInput(updatedUserInput);
+          }}
+        />
+      )
+    } else if (step === 4) {
+      return (
+        <input
+          key={index}
+          type="text"
+          placeholder={userInput[index]}
+          value={userInput[index]}
+          readOnly={true}
+          className={userInput[index].toLowerCase() === wordList[index].toLowerCase() ? 'correct' : 'incorrect'}
+          style={{ width: '174px' }}
+        />
+      )
+    }
+  };
 
   return (
     <div className="main-container">
@@ -56,7 +101,7 @@ export const WordList = () => {
         {step === 1 && (
           <>
             <p>Recuerda la lista de palabras</p>            
-            <button onClick={handleStart} style={{ marginTop: '1em' }}>
+            <button onClick={handleNext} style={{ marginTop: '1em' }}>
               Comenzar
             </button>
           </>
@@ -74,7 +119,7 @@ export const WordList = () => {
             </button>
           </>
         )}
-        {step === 3 && (
+        {(step === 3 || step === 4) && (
           <>
             <p>Introduce las palabras que recuerdas:</p>
             <div style={{maxWidth: '420px', overflow: 'visible'}}>
@@ -84,16 +129,16 @@ export const WordList = () => {
                 </span>
               ))}
             </div>
-            <button onClick={handleVerify} style={{ marginTop: '1em' }}>
-              Verificar
+            <button onClick={handleNext} style={{ marginTop: '1em' }}>
+              {step===3 ? 'Verificar' : 'Siguiente'}
             </button>
           </>
         )}
-        {step === 4 && (
+        {step === 5 && (
           <>
             <p>Tu puntuación: {score}</p>
             <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              Siguiente
+              Terminar
             </button>
           </>
         )}

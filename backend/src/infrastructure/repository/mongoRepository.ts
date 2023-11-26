@@ -4,7 +4,7 @@ import { IUserEntity } from '../../domain/user/userEntity'
 import { IUserRepository } from '../../domain/user/userRepository'
 import { IResultEntity } from '../../domain/result/resultEntity'
 import { IResultRepository } from '../../domain/result/resultRepository'
-import { BaseGameModel, SentenceMemoryModel } from '../../domain/models/gameModel'
+import { BaseGameModel } from '../../domain/models/gameModel'
 import UserModel from '../../domain/models/userModel'
 import ResultModel from '../../domain/models/resultModel'
 
