@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './SentenceMemory.css';
+import '../styles/SentenceMemory.css';
 import React, { useEffect, useState } from 'react';
 
 import { InputSentence } from '../components/SentenceMemory/inputSentence';

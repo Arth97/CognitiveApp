@@ -1,5 +1,5 @@
 
-/* Home.css */
+/* Main.css */
 .main-container {
   min-height: 80vh;
   display: flex;
@@ -34,17 +34,15 @@
 }
 
 
-/* Estilos para ChartJS */
 #chartJs {
-  width: 100%; /* Ocupar todo el ancho disponible */
-  height: 500px; /* Establecer una altura fija o ajustar según sea necesario */
-  max-width: 800px; /* Limitar el ancho máximo para evitar que el gráfico sea demasiado ancho */
-  margin: 0 auto; /* Centrar horizontalmente */
+  width: 100%;
+  height: 500px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-/* Estilos para el gráfico */
 .chart-container {
-  max-height: 500px; /* Altura máxima para evitar que el gráfico sea demasiado alto */
+  max-height: 500px;
 }
 
 .top-button-left {
