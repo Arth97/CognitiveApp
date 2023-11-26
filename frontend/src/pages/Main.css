@@ -8,6 +8,22 @@
   align-items: center;
 }
 
+.inside-container {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+  min-width: 420px;
+  max-width: 600px;
+}
+
+.inside-container button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
 .main-btn {
   border: none;
   background-color: white;
