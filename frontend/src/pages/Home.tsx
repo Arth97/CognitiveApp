@@ -15,10 +15,7 @@ export const Home = (props) => {
         <button onClick={() => navigate('/quick-reflex')} className="main-btn">QuickReflex</button>
         <button onClick={() => navigate('/sentence-memory')} className="main-btn">SentenceMemory</button>
         <button onClick={() => navigate('/word-list')} className="main-btn">Word List</button>
-        <button className="main-btn">Button</button>
-        <button className="main-btn">Button</button>
-        <button className="main-btn">Button</button>
-        <button className="main-btn">Button</button>
+        <button onClick={() => navigate('/messy-letters')} className="main-btn">Messy Letters</button>
         <button className="main-btn">Button</button>
         <button className="main-btn">Button</button>
       </div>

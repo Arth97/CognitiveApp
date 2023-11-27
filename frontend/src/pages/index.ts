@@ -7,3 +7,4 @@ export { LetterMix } from './LetterMix';
 export { QuickReflex } from './QuickReflex';
 export { SentenceMemory } from './SentenceMemory';
 export { WordList } from './WordList';
+export { MessyLetters } from './MessyLetters';
