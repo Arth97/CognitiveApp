@@ -31,6 +31,7 @@ function App() {
           <Route path="/word-list" element={<WordList />} />
           <Route path="/messy-letters" element={<MessyLetters />} />
           <Route path="/chained-words" element={<ChainedWords />} />
+          <Route path="/stroop-effect" element={<StroopEffect />} />
         </Routes>
       </UserInfoContextProvider>
     </div>

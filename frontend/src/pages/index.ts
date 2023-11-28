@@ -9,3 +9,4 @@ export { SentenceMemory } from './SentenceMemory';
 export { WordList } from './WordList';
 export { MessyLetters } from './MessyLetters';
 export { ChainedWords } from './ChainedWords';
+export { StroopEffect } from './StroopEffect';

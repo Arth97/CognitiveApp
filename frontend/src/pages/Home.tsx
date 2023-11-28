@@ -19,6 +19,7 @@ export const Home = (props) => {
         <button className="main-btn">Button</button>
         <button className="main-btn">Button</button>
         <button onClick={() => navigate('/chained-words')} className="main-btn">Chained Words</button>
+        <button onClick={() => navigate('/stroop-effect')} className="main-btn">Stroop Effect</button>
       </div>
       <div>
         <button className="main-btn">Salir</button>
