@@ -18,6 +18,7 @@ export const Home = (props) => {
         <button onClick={() => navigate('/messy-letters')} className="main-btn">Messy Letters</button>
         <button className="main-btn">Button</button>
         <button className="main-btn">Button</button>
+        <button onClick={() => navigate('/chained-words')} className="main-btn">Chained Words</button>
       </div>
       <div>
         <button className="main-btn">Salir</button>
