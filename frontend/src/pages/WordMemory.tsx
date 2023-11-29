@@ -8,10 +8,13 @@ import UserInfoContext from '../context/userInfoContext';
 
 import { chartBackgroundColor } from '../plugins/chartJsPlugins';
 import { useUserInfoStore } from '../state/userState';
+import { useNavigate } from 'react-router-dom';
+import { InputWordList } from '../components/inputWordList';
 
 // var words = require('an-array-of-english-words')
 
 export const WordMemory = () => {
+  const [saveNewData, setSaveNewData] = useState(false);
   const [remainingAttempts, setRemainingAttempts] = useState(3);
   const [points, setPoints] = useState(0);
   const [currentWord, setCurrentWord] = useState('');
@@ -26,6 +29,7 @@ export const WordMemory = () => {
   // const {userInfo} = useContext(UserInfoContext)
   const { userInfo } = useUserInfoStore();
 
+  const navigate = useNavigate();
   const scoreApi = new ScoreApi();
 
   // EndGame
@@ -131,14 +135,14 @@ export const WordMemory = () => {
       setUserScores(data)
     })
     .catch(() => {
-      // Implementar
+      // Todo
     })
   
     scoreApi.getTotalScores({ userId: userInfo.id, gameId: 'wordMemory' }).then((data) => {
       setTotalScores(data)
     })
     .catch(() => {
-      // Implementar
+      // Todo
     })
   }, []);
 
@@ -201,29 +205,42 @@ export const WordMemory = () => {
   };
 
   return (
-    <div className="main-container" style={{minHeight: '100vh'}}>
-      {!isGameOver ? (
-        <>
-          <div>
-            <p>Intentos restantes: {remainingAttempts}</p>
-            <p>Puntos: {points}</p>
-          </div>
-          <h2>{currentWord}</h2>
-          <div>
-            <button onClick={handleKnownWord}>Palabra Conocida</button>
-            <button onClick={handleNewWord}>Palabra Nueva</button>
-          </div>
-        </>
-      ) : (
-        <>
-          <h2>Game Over</h2>
-          <p>Tu puntuación: {points}</p>
-          <button onClick={handleGameEnd}>Empezar de nuevo</button>
-          <div className="chart-container">
-            <canvas id="chartJs" style={{}}></canvas>
-          </div>
-        </>
+    <div className="main-container">
+      {saveNewData && (
+        <InputWordList gameName={'wordMemory'} />
       )}
+      {!saveNewData && (
+        <div>
+          <button onClick={() => navigate('/home')} className="top-button-left"> Volver al menú </button>
+          <button onClick={() => setSaveNewData(true)} className="top-button-right"> Guardar nuevos datos </button>
+          <div className="main-container" style={{minHeight: '100vh'}}>
+            <div className="inside-container">
+              {!isGameOver ? (
+                <>
+                  <div>
+                    <p>Intentos restantes: {remainingAttempts}</p>
+                    <p>Puntos: {points}</p>
+                  </div>
+                  <h2 style={{marginLeft: '2.75em'}}>{currentWord}</h2>
+                  <div style={{marginTop: '1em'}}>
+                    <button style={{marginRight: '0.5em'}} onClick={handleKnownWord}>Palabra Conocida</button>
+                    <button style={{marginLeft: '0.5em'}} onClick={handleNewWord}>Palabra Nueva</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2>Game Over</h2>
+                  <p>Tu puntuación: {points}</p>
+                  <button onClick={handleGameEnd}>Empezar de nuevo</button>
+                  <div className="chart-container">
+                    <canvas id="chartJs" style={{}}></canvas>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+        )}
     </div>
   );
 };
