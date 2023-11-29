@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { color } from '../utils/chartUtils';
+import { InputWordList } from '../components/inputWordList';
 
 export const MessyLetters = () => {
+  const [saveNewData, setSaveNewData] = useState(false);
   const [step, setStep] = useState(1);
   const [correctWord, setCorrectWord] = useState('');
   const [currentWord, setCurrentWord] = useState('');
@@ -51,56 +53,63 @@ export const MessyLetters = () => {
 
   return (
     <div className="main-container">
-      <button onClick={() => navigate('/home')} className="top-button-left"> Volver al menú </button>
-      <button onClick={() => null} className="top-button-right"> Guardar nuevos datos </button>
-      <div className="inside-container">
-        <h2>VOCABULARIO</h2>
-        {step === 1 && (
-          <>
-            <p>Ordena la siguiente palabra</p>
-            <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              Comenzar
-            </button>
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <p>Palabra Desordenada: {currentWord}</p>
-            <input
-              type="text"
-              placeholder="Escribe la palabra correcta"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-            />
-            <button onClick={handleVerify} style={{ marginLeft: '1em', marginTop: '1em' }}>
-              Verificar
-            </button>
-          </>
-        )}
-        {step === 3 && (
-          <>
-            <p>
-              {isCorrect ? '¡Correcto!' : (
-                <>
-                  Incorrecto. <br />
-                  La palabra correcta es: <span style={{color: 'green'}}>{correctWord}</span>
-                </>
-              )}
-            </p>
-            <button onClick={handleNextOrResults} style={{ marginTop: '1em' }}>
-              {isCorrect ? 'Siguiente' : 'Resultados'}
-            </button>
-          </>
-        )}
-        {step === 4 && (
-          <>
-            <p>Tu puntuación: {score}</p>
-            <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              Terminar
-            </button>
-          </>
-        )}
-      </div>
+      {saveNewData && (step===1) && (
+        <InputWordList gameName={'messyLetters'} />
+      )}
+      {!saveNewData && (
+        <>
+          <button onClick={() => navigate('/home')} className="top-button-left"> Volver al menú </button>
+          <button onClick={() => setSaveNewData(true)} className="top-button-right"> Guardar nuevos datos </button>
+          <div className="inside-container" style={{minWidth: '320px'}}>
+            <h2>VOCABULARIO</h2>
+            {step === 1 && (
+              <>
+                <p>Ordena la siguiente palabra</p>
+                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                  Comenzar
+                </button>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <p>Palabra Desordenada: {currentWord}</p>
+                <input
+                  type="text"
+                  placeholder="Escribe la palabra correcta"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                />
+                <button onClick={handleVerify} style={{ marginLeft: '1em', marginTop: '1em' }}>
+                  Verificar
+                </button>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <p>
+                  {isCorrect ? '¡Correcto!' : (
+                    <>
+                      Incorrecto. <br />
+                      La palabra correcta es: <span style={{color: 'green'}}>{correctWord}</span>
+                    </>
+                  )}
+                </p>
+                <button onClick={handleNextOrResults} style={{ marginTop: '1em' }}>
+                  {isCorrect ? 'Siguiente' : 'Resultados'}
+                </button>
+              </>
+            )}
+            {step === 4 && (
+              <>
+                <p>Tu puntuación: {score}</p>
+                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                  Terminar
+                </button>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
