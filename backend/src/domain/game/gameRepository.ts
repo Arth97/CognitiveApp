@@ -8,4 +8,5 @@ export interface IGameRepository {
 
 export interface IGameDataStrategy {
   saveNewGameData(model, gameData: any): Promise<any>;
+  updateGameData?(model, gameData: any): Promise<any>;
 }

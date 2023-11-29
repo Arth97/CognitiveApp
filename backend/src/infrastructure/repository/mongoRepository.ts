@@ -76,7 +76,7 @@ class MongoGameRepository implements IGameRepository, IGameDataStrategy {
   async getGameDataByName (gameName): Promise<any> {
     try {
       // const result = await model.find({ name: gameName })
-      const result = await BaseGameModel.find({ name: gameName })
+      const result = await BaseGameModel.findOne({ name: gameName })
       console.log('Datos encontrados:', result)
       return result
     } catch (error) {
@@ -90,6 +90,16 @@ class MongoGameRepository implements IGameRepository, IGameDataStrategy {
     } catch (err) {
       console.log('err', err)
       throw new Error('Internal server error')
+    }
+  }
+
+  async updateGameData (model: any, options: any): Promise<any> {
+    try {
+      console.log('GameDataToUpdate', options)
+      const result = await model.updateOne(options.filter, options.update)
+      console.log(result)
+    } catch (error) {
+      console.error(error)
     }
   }
 }

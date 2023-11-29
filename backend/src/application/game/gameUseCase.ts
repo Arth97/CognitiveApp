@@ -1,7 +1,7 @@
 import { IGameDataStrategy, IGameRepository } from '../../domain/game/gameRepository'
 // import { GameValue } from '../../domain/game/gameValue'
 import { GameDataContext } from './gameDataContext'
-import { StrategyForSentenceMemory, StrategyForGameB, StrategyForMessyWords } from './gameStrategy'
+import { StrategyForSentenceMemory, StrategyForGameB, StrategyForWordList } from './gameStrategy'
 
 export class GameUseCase {
   constructor (
@@ -36,15 +36,14 @@ export class GameUseCase {
   }
 
   public saveNewGameData (gameData) {
-    console.log('gamedata', gameData)
     const { name } = gameData
 
     const gameDataContext = new GameDataContext()
 
     if (name === 'sentenceMemory') {
       gameDataContext.setStrategy(new StrategyForSentenceMemory(this._gameRepository, this._gameRepository))
-    } else if (name === 'messyWords') {
-      gameDataContext.setStrategy(new StrategyForMessyWords(this._gameRepository, this._gameRepository))
+    } else if (name === 'messyLetters' || name === 'wordMemory') {
+      gameDataContext.setStrategy(new StrategyForWordList(this._gameRepository, this._gameRepository))
     } else if (name === 'GameB') {
       gameDataContext.setStrategy(new StrategyForGameB(this._gameRepository))
     } else {

@@ -47,13 +47,12 @@ function countNumberOccurrences (numbers) {
     const { score } = scoreObj
     uniqueScores[score] = true
   })
-  console.log('uniqueScores', uniqueScores)
+  // console.log('uniqueScores', uniqueScores)
 
-  const scoresArray = Object.keys(uniqueScores).map(Number)
-  console.log('scoresArray', scoresArray)
+  // const scoresArray = Object.keys(uniqueScores).map(Number)
+  // console.log('scoresArray', scoresArray)
 
   const occurrences = {}
-
   numbers.forEach(scoreObj => {
     const { score } = scoreObj
     occurrences[score] = (occurrences[score] || 0) + 1

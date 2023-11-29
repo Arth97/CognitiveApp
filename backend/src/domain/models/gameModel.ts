@@ -26,4 +26,11 @@ const SentenceMemorySchema = new Schema({
 // Discriminator para modelos que heredan de otro modelo
 const SentenceMemoryModel = BaseGameModel.discriminator('SentenceMemory', SentenceMemorySchema)
 
-export { BaseGameModel, SentenceMemoryModel }
+const WordListSchema = new Schema({
+  name: String,
+  wordList: [String]
+})
+// Discriminator para modelos que heredan de otro modelo
+const WordListModel = BaseGameModel.discriminator('WordList', WordListSchema)
+
+export { BaseGameModel, SentenceMemoryModel, WordListModel }
