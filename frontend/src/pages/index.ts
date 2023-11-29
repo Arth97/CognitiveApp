@@ -10,3 +10,4 @@ export { WordList } from './WordList';
 export { MessyLetters } from './MessyLetters';
 export { ChainedWords } from './ChainedWords';
 export { StroopEffect } from './StroopEffect';
+export { SquareMemory } from './SquareMemory';

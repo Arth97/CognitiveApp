@@ -16,10 +16,9 @@ export const Home = (props) => {
         <button onClick={() => navigate('/sentence-memory')} className="main-btn">SentenceMemory</button>
         <button onClick={() => navigate('/word-list')} className="main-btn">Word List</button>
         <button onClick={() => navigate('/messy-letters')} className="main-btn">Messy Letters</button>
-        <button className="main-btn">Button</button>
-        <button className="main-btn">Button</button>
         <button onClick={() => navigate('/chained-words')} className="main-btn">Chained Words</button>
         <button onClick={() => navigate('/stroop-effect')} className="main-btn">Stroop Effect</button>
+        <button onClick={() => navigate('/square-memory')} className="main-btn">SquareMemory</button>
       </div>
       <div>
         <button className="main-btn">Salir</button>
