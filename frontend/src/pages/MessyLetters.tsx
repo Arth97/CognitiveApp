@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { color } from '../utils/chartUtils';
 import { InputWordList } from '../components/inputWordList';
+import { ResultView } from '../components/resultComponent';
 
 export const MessyLetters = () => {
   const [saveNewData, setSaveNewData] = useState(false);
@@ -105,6 +106,7 @@ export const MessyLetters = () => {
                 <button onClick={handleNext} style={{ marginTop: '1em' }}>
                   Terminar
                 </button>
+                <ResultView />
               </>
             )}
           </div>

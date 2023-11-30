@@ -1,13 +1,10 @@
 // WordMemory.tsx
 import { useState, useEffect, useContext } from 'react';
-import Chart, { ChartConfiguration } from 'chart.js/auto';
 
-import { CHART_COLORS, transparentize } from '../utils/chartUtils'
-import { ScoreApi } from '../api/backApi';
-import UserInfoContext from '../context/userInfoContext';
+// import { ScoreApi } from '../api/backApi';
+// import UserInfoContext from '../context/userInfoContext';
 
-import { chartBackgroundColor } from '../plugins/chartJsPlugins';
-import { useUserInfoStore } from '../state/userState';
+// import { useUserInfoStore } from '../state/userState';
 import { useNavigate } from 'react-router-dom';
 import { InputWordList } from '../components/inputWordList';
 import { ResultView } from '../components/resultComponent';
@@ -25,10 +22,10 @@ export const WordMemory = () => {
   const [isGameOver, setIsGameOver] = useState(false);
 
   // const {userInfo} = useContext(UserInfoContext)
-  const { userInfo } = useUserInfoStore();
+  // const { userInfo } = useUserInfoStore();
 
   const navigate = useNavigate();
-  const scoreApi = new ScoreApi();
+  // const scoreApi = new ScoreApi();
 
   useEffect(() => {
     if (remainingAttempts === 0) {
@@ -40,7 +37,6 @@ export const WordMemory = () => {
 
 
   const handleKnownWord = () => {
-    // Si el usuario selecciona palabra conocida, sumamos un punto
     if (usedWords.includes(currentWord)) {
       setPoints((prevPoints) => prevPoints + 1);
     } else {
@@ -48,12 +44,10 @@ export const WordMemory = () => {
       usedWords.push(currentWord)
       setUsedWords(usedWords)
     }
-    // Obtenemos una nueva palabra aleatoria
     getNewWord();
   };
 
   const handleNewWord = () => {
-    // Si el usuario selecciona palabra nueva, restamos un intento
     if (usedWords.includes(currentWord)) {
       setRemainingAttempts((prevAttempts) => prevAttempts - 1);
     } else {
@@ -61,13 +55,12 @@ export const WordMemory = () => {
       usedWords.push(currentWord)
       setUsedWords(usedWords)
     }
-    // Obtenemos una nueva palabra aleatoria
     getNewWord();
   };
 
   const getNewWord = () => {
-    // Aquí podrías implementar la lógica para obtener una palabra aleatoria
-    // Por simplicidad, aquí usaré una lista fija de palabras
+    // Ampliar logica para usar palabra aleatoria
+    // Simplificado para test
     const words = ['apple', 'banana', 'orange', 'grape', 'pear'];
     let randomIndex = Math.floor(Math.random() * words.length);
     let newWord = words[randomIndex];

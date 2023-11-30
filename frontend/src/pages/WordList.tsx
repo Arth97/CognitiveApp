@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GameApi, ScoreApi } from '../api/backApi';
 import { useUserInfoStore } from '../state/userState';
+import { ResultView } from '../components/resultComponent';
 
 const initialWordList = [
   'Palabra1', 'Palabra2', 'Palabra3', 'Palabra4', 'Palabra5',
@@ -140,6 +141,7 @@ export const WordList = () => {
             <button onClick={handleNext} style={{ marginTop: '1em' }}>
               Terminar
             </button>
+            <ResultView />
           </>
         )}
       </div>
