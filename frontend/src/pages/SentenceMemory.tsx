@@ -41,6 +41,8 @@ export const SentenceMemory = () => {
   const selectAndSetSentence = () => {
     const availableSentences = allSentences.filter(sentence => !selectedSentenceIds.includes(sentence._id))
     const selectedSentence = availableSentences[Math.floor(Math.random() * availableSentences.length)]
+    // Si selectedSentence==undefined, no quedan mas oraciones, faltan más
+    if (!selectedSentence) { setLevel(4); return; }
     setSelectedSentenceIds(prevIds => [...prevIds, selectedSentence._id]);
     setCurrentSentence(selectedSentence.sentenceToSave.join(" "))
 

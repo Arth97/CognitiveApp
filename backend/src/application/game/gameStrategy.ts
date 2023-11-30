@@ -38,11 +38,11 @@ export class StrategyForWordList implements IGameDataStrategy {
     console.log('datos recibidos por argumento', gameData)
     try {
       const dataToUpdate = await this._gameRepository.getGameDataByName(gameData.name)
-      console.log('dataToUpdate', dataToUpdate)
-      if (!dataToUpdate) { return this._gameStrategyRepository.saveNewGameData(WordListModel, gameData) }
+      console.log('dataToUpdate', dataToUpdate[0])
+      if (!dataToUpdate[0]) { return this._gameStrategyRepository.saveNewGameData(WordListModel, gameData) }
 
       const options = {
-        filter: { _id: dataToUpdate._id },
+        filter: { _id: dataToUpdate[0]._id },
         update: { $addToSet: { wordList: gameData.wordList } }
       }
       return this._gameStrategyRepository.updateGameData(WordListModel, options)
