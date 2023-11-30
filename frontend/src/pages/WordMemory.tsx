@@ -229,7 +229,7 @@ export const WordMemory = () => {
                 </>
               ) : (
                 <>
-                  <h2>Game Over</h2>
+                  <h2>RESULTADOS</h2>
                   <p>Tu puntuación: {points}</p>
                   <button onClick={handleGameEnd}>Empezar de nuevo</button>
                   <div className="chart-container">
@@ -244,9 +244,3 @@ export const WordMemory = () => {
     </div>
   );
 };
-
-/*
-<div style={{width: '500px', height: '250px'}}>
-  <canvas id="chartJs"></canvas>
-</div>
-*/

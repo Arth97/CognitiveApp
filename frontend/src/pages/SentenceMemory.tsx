@@ -7,6 +7,7 @@ import { SelectWords } from '../components/SentenceMemory/selectWords';
 
 import { GameApi } from '../api/backApi';
 import { useNavigate } from 'react-router-dom';
+import { ResultView } from '../components/resultComponent';
 
 export const SentenceMemory = () => {
   const [level, setLevel] = useState(0);
@@ -199,11 +200,14 @@ export const SentenceMemory = () => {
           )}
 
           {level === 4 && (
-            <div className="challenge">
-              <h2>RESULTADOS</h2>
-              <p>Tu puntuación: {score}</p>
-              <button style={{marginTop: '1em'}} onClick={nextStep}>Reiniciar</button>
-            </div>
+            <>
+              <div className="challenge">
+                <h2>RESULTADOS</h2>
+                <p>Tu puntuación: {score}</p>
+                <button style={{marginTop: '1em'}} onClick={nextStep}>Reiniciar</button>
+              </div>            
+              <ResultView />
+            </>
           )}
         </>
       )}

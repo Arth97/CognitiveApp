@@ -6,11 +6,11 @@ import { InputNumber } from '../components/NumberMemory/inputNumberComponent';
 import { ResultView } from '../components/NumberMemory/resultComponent';
 import { ShowNumber } from '../components/NumberMemory/showNumberComponent';
 
-import { ScoreApi } from '../api/backApi';
+// import { ScoreApi } from '../api/backApi';
 
-import UserInfoContext from '../context/userInfoContext';
+// import UserInfoContext from '../context/userInfoContext';
 
-import { useUserInfoStore } from '../state/userState';
+// import { useUserInfoStore } from '../state/userState';
 import { useNumberStore, usePageStatusStore } from '../state/numberMemoryState';
 
 export const NumberMemory = () => {
@@ -18,7 +18,7 @@ export const NumberMemory = () => {
   const [timerId, setTimerId] = useState(null);
 
   // const {userInfo} = useContext(UserInfoContext)
-  const { userInfo } = useUserInfoStore();
+  // const { userInfo } = useUserInfoStore();
   const { userNumber, setUserNumber, randomNumber, setRandomNumber, level, resetLevel } = useNumberStore();
   const { isGameStarted, showResults, timeOutEnded, showAnswer, setIsGameStarted, setShowResults, setTimeOutEnded, setShowAnswer } = usePageStatusStore();
 
@@ -112,6 +112,7 @@ export const NumberMemory = () => {
       </div>
 
       {/* Pantalla final despues de fallar mostrando resultado mas ChartJs */}
+      {/* Todo: Revisar por si necesita modificarse */}
       { isGameStarted && showResults && (
         <ResultView />
       )}
