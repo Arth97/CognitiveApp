@@ -10,6 +10,7 @@ import { chartBackgroundColor } from '../plugins/chartJsPlugins';
 import { useUserInfoStore } from '../state/userState';
 import { useNavigate } from 'react-router-dom';
 import { InputWordList } from '../components/inputWordList';
+import { ResultView } from '../components/resultComponent';
 
 // var words = require('an-array-of-english-words')
 
@@ -22,129 +23,12 @@ export const WordMemory = () => {
   const [lastTenWords, setLastTenWords] = useState('');
   const [usedWords, setUsedWords] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [chartInstance, setChartInstance] = useState(null);
-  const [userScores, setUserScores] = useState(null);
-  const [totalScores, setTotalScores] = useState(null);
 
   // const {userInfo} = useContext(UserInfoContext)
   const { userInfo } = useUserInfoStore();
 
   const navigate = useNavigate();
   const scoreApi = new ScoreApi();
-
-  // EndGame
-  useEffect(() => {
-    if (!isGameOver) return;
-
-    console.log("Init")
-    console.log("chartInstance", chartInstance)
-
-    // Save info result BBDD
-    scoreApi.saveScore({
-      userId: userInfo.id,
-      gameId: 'wordMemory',
-      score: points,
-      time: null
-    });
-
-    userScores[points]++;
-    totalScores[points]++;
-
-    if (chartInstance) {
-      chartInstance.destroy();
-    }
-
-    const labels = Array.from({ length: 40 }, (_, index) => index);
-    const data = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Puntuacion del usuario',
-          data: userScores,
-          borderColor: CHART_COLORS.blue,
-          backgroundColor: transparentize(CHART_COLORS.blue, 0.5),
-          fill: 'origin', 
-        },
-        {
-          label: 'Puntuacion global',
-          data: totalScores,
-          borderColor: CHART_COLORS.yellow,
-          backgroundColor: transparentize(CHART_COLORS.yellow, 0.5),
-          fill: '-1', 
-        }
-      ]
-    };
-
-    const config: ChartConfiguration = {
-      type: 'line',
-      data: data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            grid: {
-              color: 'rgba(0, 0, 0, 0.1)',
-            },
-            ticks: {
-              color: 'black',
-            },
-            title: {
-              display: true,
-              text: 'Puntuación'
-            }
-          },
-          y: {
-            grid: {
-              color: 'rgba(0, 0, 0, 0.1)',
-            },
-            ticks: {
-              color: 'black',
-            },
-            title: {
-              display: true,
-              text: 'Nº de veces'
-            }
-          },
-        },
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Chart.js Line Chart'
-          }
-        }
-      },
-      plugins: [chartBackgroundColor],
-    };
-  
-    const chartElem = document.getElementById('chartJs') as HTMLCanvasElement;
-    const newChartInstance: Chart = new Chart(
-      chartElem,
-      config
-    );
-
-    setChartInstance(newChartInstance);
-
-  }, [isGameOver]);
-
-  useEffect(() => {
-    scoreApi.getUserScores({ userId: userInfo.id, gameId: 'wordMemory' }).then((data) => {
-      setUserScores(data)
-    })
-    .catch(() => {
-      // Todo
-    })
-  
-    scoreApi.getTotalScores({ userId: userInfo.id, gameId: 'wordMemory' }).then((data) => {
-      setTotalScores(data)
-    })
-    .catch(() => {
-      // Todo
-    })
-  }, []);
 
   useEffect(() => {
     if (remainingAttempts === 0) {
@@ -232,9 +116,7 @@ export const WordMemory = () => {
                   <h2>RESULTADOS</h2>
                   <p>Tu puntuación: {points}</p>
                   <button onClick={handleGameEnd}>Empezar de nuevo</button>
-                  <div className="chart-container">
-                    <canvas id="chartJs" style={{}}></canvas>
-                  </div>
+                  <ResultView />
                 </>
               )}
             </div>

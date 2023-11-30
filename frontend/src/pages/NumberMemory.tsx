@@ -111,8 +111,6 @@ export const NumberMemory = () => {
         </button>
       </div>
 
-      {/* Pantalla final despues de fallar mostrando resultado mas ChartJs */}
-      {/* Todo: Revisar por si necesita modificarse */}
       { isGameStarted && showResults && (
         <ResultView />
       )}
