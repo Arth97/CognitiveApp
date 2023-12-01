@@ -10,7 +10,7 @@ import UserInfoContext from '../context/userInfoContext';
 import { chartBackgroundColor } from '../plugins/chartJsPlugins'; // Ruta correcta al archivo del plugin
 import { useNumberStore } from '../state/numberMemoryState';
 
-export const ResultView = () => {
+export const ResultView = ({gameName}) => {
 
   const [userScores, setUserScores] = useState(null);
   const [totalScores, setTotalScores] = useState(null);

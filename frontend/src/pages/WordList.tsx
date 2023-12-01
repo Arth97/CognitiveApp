@@ -141,7 +141,7 @@ export const WordList = () => {
             <button onClick={handleNext} style={{ marginTop: '1em' }}>
               Terminar
             </button>
-            <ResultView />
+            <ResultView gameName={'wordList'}/>
           </>
         )}
       </div>

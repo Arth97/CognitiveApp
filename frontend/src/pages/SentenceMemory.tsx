@@ -206,7 +206,7 @@ export const SentenceMemory = () => {
                 <p>Tu puntuación: {score}</p>
                 <button style={{marginTop: '1em'}} onClick={nextStep}>Reiniciar</button>
               </div>            
-              <ResultView />
+              <ResultView gameName={'sentenceMemory'}/>
             </>
           )}
         </>

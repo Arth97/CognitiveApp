@@ -109,7 +109,7 @@ export const WordMemory = () => {
                   <h2>RESULTADOS</h2>
                   <p>Tu puntuación: {points}</p>
                   <button onClick={handleGameEnd}>Empezar de nuevo</button>
-                  <ResultView />
+                  <ResultView gameName={'wordMemory'}/>
                 </>
               )}
             </div>
