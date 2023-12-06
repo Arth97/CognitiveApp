@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GameApi, ScoreApi } from '../api/backApi';
 import { useUserInfoStore } from '../state/userState';
 import { ResultView } from '../components/resultComponent';
+import { InputWordList } from '../components/inputWordList';
 
 const initialWordList = [
   'Palabra1', 'Palabra2', 'Palabra3', 'Palabra4', 'Palabra5',
@@ -11,6 +12,7 @@ const initialWordList = [
 ];
 
 export const WordList = () => {
+  const [saveNewData, setSaveNewData] = useState(false);
   const [wordList, setWordList] = useState(initialWordList);
   const [userInput, setUserInput] = useState(Array(initialWordList.length).fill(''));
   const [score, setScore] = useState(0);
@@ -95,56 +97,63 @@ export const WordList = () => {
 
   return (
     <div className="main-container">
-      <button onClick={() => navigate('/home')} className='top-button-left'>Volver al menú</button>
-      <button onClick={() => null} className='top-button-right'>Guardar nuevos datos</button>
-      <div className="inside-container">
-        <h2>MEMORIZACIÓN</h2>
-        {step === 1 && (
-          <>
-            <p>Recuerda la lista de palabras</p>            
-            <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              Comenzar
-            </button>
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <p>Recuerda la lista de palabras</p>
-            <ul>
-              {wordList.map((word, index) => (
-                <li key={index}>{word}</li>
-              ))}
-            </ul>
-            <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              Siguiente
-            </button>
-          </>
-        )}
-        {(step === 3 || step === 4) && (
-          <>
-            <p>Introduce las palabras que recuerdas:</p>
-            <div style={{maxWidth: '420px', overflow: 'visible'}}>
-              {wordList.map((word, index) => (
-                <span key={index}>
-                  {renderWordInput(index)}{' '}
-                </span>
-              ))}
-            </div>
-            <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              {step===3 ? 'Verificar' : 'Siguiente'}
-            </button>
-          </>
-        )}
-        {step === 5 && (
-          <>
-            <p>Tu puntuación: {score}</p>
-            <button onClick={handleNext} style={{ marginTop: '1em' }}>
-              Terminar
-            </button>
-            <ResultView gameName={'wordList'}/>
-          </>
-        )}
-      </div>
+      {saveNewData && (step===1) && (
+        <InputWordList gameName={'messyLetters'} />
+      )}
+      {!saveNewData && (
+        <>        
+          <button onClick={() => navigate('/home')} className='top-button-left'>Volver al menú</button>
+          <button onClick={() => setSaveNewData(true)} className='top-button-right'>Guardar nuevos datos</button>
+          <div className="inside-container">
+            <h2>MEMORIZACIÓN</h2>
+            {step === 1 && (
+              <>
+                <p>Recuerda la lista de palabras</p>            
+                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                  Comenzar
+                </button>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <p>Recuerda la lista de palabras</p>
+                <ul>
+                  {wordList.map((word, index) => (
+                    <li key={index}>{word}</li>
+                  ))}
+                </ul>
+                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                  Siguiente
+                </button>
+              </>
+            )}
+            {(step === 3 || step === 4) && (
+              <>
+                <p>Introduce las palabras que recuerdas:</p>
+                <div style={{maxWidth: '420px', overflow: 'visible'}}>
+                  {wordList.map((word, index) => (
+                    <span key={index}>
+                      {renderWordInput(index)}{' '}
+                    </span>
+                  ))}
+                </div>
+                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                  {step===3 ? 'Verificar' : 'Siguiente'}
+                </button>
+              </>
+            )}
+            {step === 5 && (
+              <>
+                <p>Tu puntuación: {score}</p>
+                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                  Terminar
+                </button>
+                <ResultView gameName={'wordList'}/>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -19,7 +19,7 @@ const BaseGameSchema = new Schema({
 const BaseGameModel = model('Game', BaseGameSchema)
 
 const SentenceMemorySchema = new Schema({
-  name: { type: String, default: 'SentenceMemory' },
+  gameName: { type: String, default: 'SentenceMemory' },
   selectedWords: [String],
   sentenceToSave: [String]
 })
@@ -27,7 +27,8 @@ const SentenceMemorySchema = new Schema({
 const SentenceMemoryModel = BaseGameModel.discriminator('SentenceMemory', SentenceMemorySchema)
 
 const WordListSchema = new Schema({
-  name: String,
+  gameName: String,
+  listName: String,
   wordList: [String]
 })
 // Discriminator para modelos que heredan de otro modelo

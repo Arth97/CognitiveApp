@@ -36,15 +36,15 @@ export class GameUseCase {
   }
 
   public saveNewGameData (gameData) {
-    const { name } = gameData
+    const { gameName } = gameData
 
     const gameDataContext = new GameDataContext()
 
-    if (name === 'sentenceMemory') {
+    if (gameName === 'sentenceMemory') {
       gameDataContext.setStrategy(new StrategyForSentenceMemory(this._gameRepository, this._gameRepository))
-    } else if (name === 'messyLetters' || name === 'wordMemory') {
+    } else if (gameName === 'messyLetters' || gameName === 'wordMemory') {
       gameDataContext.setStrategy(new StrategyForWordList(this._gameRepository, this._gameRepository))
-    } else if (name === 'GameB') {
+    } else if (gameName === 'GameB') {
       gameDataContext.setStrategy(new StrategyForGameB(this._gameRepository))
     } else {
       throw new Error('Unknown game type.')

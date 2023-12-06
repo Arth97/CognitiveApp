@@ -9,7 +9,7 @@ export const Home = (props) => {
     <div className="home-container">
       <h2>CognitiveApp</h2>
       <div className="home-menu-grid">
-        <button onClick={() => navigate('/number-memory')} className="main-btn">Number memory</button>
+        <button onClick={() => navigate('/number-memory')} className="main-btn">Number Memory</button>
         <button onClick={() => navigate('/word-memory')} className="main-btn">Word Memory</button>
         <button onClick={() => navigate('/sentence-memory')} className="main-btn">SentenceMemory</button>
         <button onClick={() => navigate('/word-list')} className="main-btn">Word List</button>
