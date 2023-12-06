@@ -42,7 +42,7 @@ export class GameUseCase {
 
     if (gameName === 'sentenceMemory') {
       gameDataContext.setStrategy(new StrategyForSentenceMemory(this._gameRepository, this._gameRepository))
-    } else if (gameName === 'messyLetters' || gameName === 'wordMemory') {
+    } else if (gameName === 'messyLetters' || gameName === 'wordMemory' || gameName === 'wordList') {
       gameDataContext.setStrategy(new StrategyForWordList(this._gameRepository, this._gameRepository))
     } else if (gameName === 'GameB') {
       gameDataContext.setStrategy(new StrategyForGameB(this._gameRepository))

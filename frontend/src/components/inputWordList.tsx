@@ -34,9 +34,6 @@ export const InputWordList = ({gameName}) => {
   };
 
   const handleKeyPress = (e) => {
-    // console.log("e.event", e)
-    console.log("document.activeElement", document.activeElement)
-    console.log("inputListRef", inputListRef)
     if (e.key === 'Enter') {
       if (document.activeElement === inputListRef.current) {
         // handleAddListName();
@@ -48,7 +45,7 @@ export const InputWordList = ({gameName}) => {
 
   const saveListOfWord = () => {
     console.log("gameName", gameName)
-    gameApi.saveGameData({ gameName, wordList }).then((res) => {
+    gameApi.saveGameData({ inputListName, gameName, wordList }).then((res) => {
       console.log("res", res)
       // TODO Hacer algo después de guardar los datos, si es necesario
     });

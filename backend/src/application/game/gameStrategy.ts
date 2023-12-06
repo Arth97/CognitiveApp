@@ -36,6 +36,10 @@ export class StrategyForWordList implements IGameDataStrategy {
 
   async saveNewGameData (_, gameData): Promise<any> {
     console.log('datos recibidos por argumento', gameData)
+
+    // !!! PRIORITARIO
+    // TODO: En vez de recuperar por ID, hacerlo por nombre de juego, se sacan multiples conjuntos
+    // TODO: y se filtra por conjunto, si el conjunto existe, se actualiza, sino se crea uno nuevo
     try {
       const dataToUpdate = await this._gameRepository.getGameDataByName(gameData.name)
       console.log('dataToUpdate', dataToUpdate[0])

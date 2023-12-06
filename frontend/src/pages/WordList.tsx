@@ -98,7 +98,7 @@ export const WordList = () => {
   return (
     <div className="main-container">
       {saveNewData && (step===1) && (
-        <InputWordList gameName={'messyLetters'} />
+        <InputWordList gameName={'wordList'} />
       )}
       {!saveNewData && (
         <>        
