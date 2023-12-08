@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GameApi } from '../api/backApi';
 
 export const InputWordList = ({gameName}) => {
-  const [inputListName, setInputListName] = useState('');
+  const [listName, settListName] = useState('');
   const [inputWord, setInputWord] = useState('');
   const [wordList, setWordList] = useState([]);
   const inputListRef = useRef(null);
@@ -12,7 +12,7 @@ export const InputWordList = ({gameName}) => {
   const gameApi = new GameApi();
 
   const handleInputNameListChange = (e) => {
-    setInputListName(e.target.value);
+    settListName(e.target.value);
   };
   
   const handleInputWordChange = (e) => {
@@ -45,7 +45,7 @@ export const InputWordList = ({gameName}) => {
 
   const saveListOfWord = () => {
     console.log("gameName", gameName)
-    gameApi.saveGameData({ inputListName, gameName, wordList }).then((res) => {
+    gameApi.saveGameData({ gameName, listName, wordList }).then((res) => {
       console.log("res", res)
       // TODO Hacer algo después de guardar los datos, si es necesario
     });
@@ -61,12 +61,12 @@ export const InputWordList = ({gameName}) => {
             ref={inputListRef}
             type="text"
             placeholder="Nombre de la lista"
-            value={inputListName}
+            value={listName}
             onChange={handleInputNameListChange}
             onKeyPress={handleKeyPress}
             style={{ marginRight: '10px', width: '150px' }}
           />
-          <p style={{ marginTop: '0.3rem' }}>{inputListName}</p>
+          <p style={{ marginTop: '0.3rem' }}>{listName}</p>
         </div>
         <p>Introduce una nueva palabra:</p>
         <input

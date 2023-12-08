@@ -75,9 +75,8 @@ class MongoGameRepository implements IGameRepository, IGameDataStrategy {
 
   async getGameDataByName (gameName): Promise<any> {
     try {
-      // const result = await model.find({ name: gameName })
-      const result = await BaseGameModel.find({ name: gameName })
-      console.log('Datos encontrados:', result)
+      // const result = await model.find({ gameName })
+      const result = await BaseGameModel.find({ gameName })
       return result
     } catch (error) {
       console.error('Error al buscar datos:', error)
@@ -87,7 +86,7 @@ class MongoGameRepository implements IGameRepository, IGameDataStrategy {
   // ? Implementar este para todos y modificar el de arriba para 1un solo dato?
   // async getAllGameDataByName (gameName): Promise<any> {
   //   try {
-  //     const result = await BaseGameModel.find({ name: gameName })
+  //     const result = await BaseGameModel.find({ gameName })
   //     console.log('Datos encontrados:', result)
   //     return result
   //   } catch (error) {
