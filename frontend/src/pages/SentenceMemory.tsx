@@ -30,7 +30,7 @@ export const SentenceMemory = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sentences = await gameApi.getGameDataByname('SentenceMemory');
+        const sentences = await gameApi.getGameDataByName('SentenceMemory');
         setAllSentences(sentences.data);
       } catch (error) {
         console.error('Error fetching data:', error);

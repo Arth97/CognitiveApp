@@ -67,7 +67,7 @@ class ScoreApi {
 }
 
 class GameApi {
-  getGameDataByname(gameName) {
+  getGameDataByName(gameName) {
     return axios
       .get(`http://localhost:3001/api/games/gameData/${gameName}`)
       .then((response) => {
