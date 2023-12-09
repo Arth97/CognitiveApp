@@ -1,5 +1,5 @@
 // WordList.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GameApi, ScoreApi } from '../api/backApi';
 import { useUserInfoStore } from '../state/userState';
@@ -11,20 +11,36 @@ const initialWordList = [
   'Palabra6', 'Palabra7', 'Palabra8', 'Palabra9', 'Palabra10'
 ];
 
+// TODO1: Mejorar la forma en la que pasas al siguiente nivel cuando aciertas todas ya que parece que comienza de nuevo.
+
+// TODO2: Corregir, cuando terminas partida y empiezas una nueva, la grafica no funciona, 
+// TODO: quizá no se esté destruyendo correctamente al ir por componente, revisar con la hardcoded.
+
+// TODO3: Corregir datos mostrados en grafica, (dessarrollar save score?)
+
 export const WordList = () => {
   const [saveNewData, setSaveNewData] = useState(false);
   const [wordList, setWordList] = useState(initialWordList);
-  const [userInput, setUserInput] = useState(Array(initialWordList.length).fill(''));
+  const [userInput, setUserInput] = useState([]);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [step, setStep] = useState(1);
   const [allWordsCorrect, setAllWordsCorrect] = useState(false);
+  const [gameData, setGameData] = useState([]);
 
   const { userInfo } = useUserInfoStore();
 
   const navigate = useNavigate();
   const gameApi = new GameApi();
   const scoreApi = new ScoreApi();
+
+  useEffect(() => {
+    const retriveData = async () => {
+      const data = await gameApi.getGameDataByName('wordList')
+      setGameData(data.data); // TODO: Modificar el back para no tener tanto data.data anidado en el objeto de respuesta
+    }
+    retriveData();
+  },[])
 
   const handleStart = () => {
     setGameStarted(true);
@@ -38,12 +54,12 @@ export const WordList = () => {
       //setUserInput(Array(wordList.length).fill(''));
       setStep(step + 1);
     }
-    else if (step===3) handleVerify()
-    else if (step === 4) {
+    else if (step===4) handleVerify()
+    else if (step === 5) {
       if(allWordsCorrect) setStep(1)
-      else {setStep(5); saveScore();}
+      else {setStep(6); saveScore();}
     }
-    else if (step===5) setStep(1)
+    else if (step===6) setStep(1)
     else setStep(step + 1);
   };
 
@@ -60,12 +76,18 @@ export const WordList = () => {
       gameId: 'wordList',
       score: score,
       time: null
-    })
-    
+    })    
+  }
+
+  const handleGameDataSelection = (data) => {
+    const selectedWordList = gameData.find((gData) => gData.listName === data.listName).wordList
+    setWordList(selectedWordList)
+    setUserInput(Array(selectedWordList.length).fill(''))
+    setStep(3);
   }
 
   const renderWordInput = (index) => {
-    if (step === 3) {
+    if (step === 4) {
       return (
         <input
           key={index}
@@ -80,7 +102,7 @@ export const WordList = () => {
           }}
         />
       )
-    } else if (step === 4) {
+    } else if (step === 5) {
       return (
         <input
           key={index}
@@ -116,6 +138,20 @@ export const WordList = () => {
             )}
             {step === 2 && (
               <>
+                <p>Selecciona un conjunto de palabras</p>
+                {gameData && (
+                  <div>
+                    {gameData.map((data, index) => (
+                      <button key={index} onClick={() => handleGameDataSelection(data)} style={{ marginTop: '1em', marginRight: '1em' }}>
+                        {data.listName}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+            {step === 3 && (
+              <>
                 <p>Recuerda la lista de palabras</p>
                 <ul>
                   {wordList.map((word, index) => (
@@ -127,7 +163,7 @@ export const WordList = () => {
                 </button>
               </>
             )}
-            {(step === 3 || step === 4) && (
+            {(step === 4 || step === 5) && (
               <>
                 <p>Introduce las palabras que recuerdas:</p>
                 <div style={{maxWidth: '420px', overflow: 'visible'}}>
@@ -138,11 +174,11 @@ export const WordList = () => {
                   ))}
                 </div>
                 <button onClick={handleNext} style={{ marginTop: '1em' }}>
-                  {step===3 ? 'Verificar' : 'Siguiente'}
+                  {step===4 ? 'Verificar' : 'Siguiente'}
                 </button>
               </>
             )}
-            {step === 5 && (
+            {step === 6 && (
               <>
                 <p>Tu puntuación: {score}</p>
                 <button onClick={handleNext} style={{ marginTop: '1em' }}>
