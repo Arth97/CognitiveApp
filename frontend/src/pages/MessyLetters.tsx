@@ -5,6 +5,7 @@ import { color } from '../utils/chartUtils';
 import { InputWordList } from '../components/inputWordList';
 import { ResultView } from '../components/resultComponent';
 import { GameApi } from '../api/backApi';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 export const MessyLetters = () => {
   const [saveNewData, setSaveNewData] = useState(false);
@@ -15,7 +16,7 @@ export const MessyLetters = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [score, setScore] = useState(0)
   const [gameData, setGameData] = useState(null);
-  const [wordList, setWordList] = useState([]);
+  // const [wordList, setWordList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -32,32 +33,7 @@ export const MessyLetters = () => {
       console.log("data.data", data.data)
     }
     retriveData();
-  },[])
-
-  const getRandomWord = () => {
-    const randomIndex = Math.floor(Math.random() * wordList.length);
-    return wordList[randomIndex];
-  };
-
-  const shuffleWord = (word) => {
-    const shuffledWord = word.split('').sort(() => Math.random() - 0.5).join('');
-    return shuffledWord;
-  };
-
-  const handleNext = () => {
-    if (step === 1) setStep(2);
-    else {
-      const newWord = getRandomWord();
-      setCorrectWord(newWord)
-      setCurrentWord(shuffleWord(newWord));
-    }
-  };
-
-  const handleVerify = () => {
-    const isInputCorrect = userInput.toLowerCase() === correctWord.toLowerCase();
-    setIsCorrect(isInputCorrect);
-    setStep(3);
-  };
+  },[])  
 
   const handleNextOrResults = () => {
     if (isCorrect) {
@@ -67,12 +43,33 @@ export const MessyLetters = () => {
       setStep(5);
     }
   };
+  
+  const handleVerify = () => {
+    const isInputCorrect = userInput.toLowerCase() === correctWord.toLowerCase();
+    setIsCorrect(isInputCorrect);
+    setStep(4);
+  };
 
   const handleGameDataSelection = (data) => {
     const selectedWordList = gameData.find((gData) => gData.listName === data.listName).wordList
-    setWordList(selectedWordList)
+    const newWord = getRandomWord(selectedWordList);
+    setCorrectWord(newWord)
+    setCurrentWord(shuffleWord(newWord));
     setStep(3);
   }
+
+  const getRandomWord = (selectedWordList) => {
+    const randomIndex = Math.floor(Math.random() * selectedWordList.length);
+    return selectedWordList[randomIndex];
+  };
+
+  const shuffleWord = (word) => {
+    let shuffledWord
+    do {
+      shuffledWord = word.split('').sort(() => Math.random() - 0.5).join('');
+    } while (shuffledWord===word) // Prevent unsuffled word
+    return shuffledWord;
+  };
 
   return (
     <div className="main-container">
@@ -88,7 +85,7 @@ export const MessyLetters = () => {
             {step === 1 && (
               <>
                 <p>Ordena la siguiente palabra</p>
-                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                <button onClick={()=>setStep(2)} style={{ marginTop: '1em' }}>
                   Comenzar
                 </button>
               </>
@@ -124,10 +121,10 @@ export const MessyLetters = () => {
             {step === 4 && (
               <>
                 <p>
-                  {isCorrect ? '¡Correcto!' : (
+                  {isCorrect ? <span style={{color: 'green'}}>¡Correcto!</span> : (
                     <>
-                      Incorrecto. <br />
-                      La palabra correcta es: <span style={{color: 'green'}}>{correctWord}</span>
+                      <span style={{color: 'red'}}>Incorrecto.</span> <br />
+                      La palabra correcta es: <span style={{textDecoration: 'underline'}}>{correctWord}</span>
                     </>
                   )}
                 </p>
@@ -139,7 +136,7 @@ export const MessyLetters = () => {
             {step === 5 && (
               <>
                 <p>Tu puntuación: {score}</p>
-                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                <button onClick={()=>setStep(1)} style={{ marginTop: '1em' }}>
                   Terminar
                 </button>
                 <ResultView gameName={'messyLetters'}/>
