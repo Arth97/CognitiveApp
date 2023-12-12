@@ -1,11 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // MessyLetters.tsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { color } from '../utils/chartUtils';
 import { InputWordList } from '../components/inputWordList';
 import { ResultView } from '../components/resultComponent';
 import { GameApi } from '../api/backApi';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 export const MessyLetters = () => {
   const [saveNewData, setSaveNewData] = useState(false);
@@ -16,7 +15,6 @@ export const MessyLetters = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [score, setScore] = useState(0)
   const [gameData, setGameData] = useState(null);
-  // const [wordList, setWordList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -24,7 +22,7 @@ export const MessyLetters = () => {
 
   const gameApi = new GameApi();
 
-  // TODO: Revisar si falt alo mismo que en wordList
+  // TODO: Revisar si falta lo mismo que en wordList
 
   useEffect(() => {
     const retriveData = async () => {
@@ -33,7 +31,7 @@ export const MessyLetters = () => {
       console.log("data.data", data.data)
     }
     retriveData();
-  },[])  
+  },[]) 
 
   const handleNextOrResults = () => {
     if (isCorrect) {
@@ -67,7 +65,7 @@ export const MessyLetters = () => {
     let shuffledWord
     do {
       shuffledWord = word.split('').sort(() => Math.random() - 0.5).join('');
-    } while (shuffledWord===word) // Prevent unsuffled word
+    } while (shuffledWord===word) // Prevent unshuffled word
     return shuffledWord;
   };
 
@@ -136,7 +134,7 @@ export const MessyLetters = () => {
             {step === 5 && (
               <>
                 <p>Tu puntuación: {score}</p>
-                <button onClick={()=>setStep(1)} style={{ marginTop: '1em' }}>
+                <button onClick={()=>setStep(1)} style={{ margin: '1em 0' }}>
                   Terminar
                 </button>
                 <ResultView gameName={'messyLetters'}/>

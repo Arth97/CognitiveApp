@@ -27,6 +27,9 @@ export const WordList = () => {
   const [step, setStep] = useState(1);
   const [allWordsCorrect, setAllWordsCorrect] = useState(false);
   const [gameData, setGameData] = useState([]);
+  const [currentPercentageIndex, setCurrentPercentageIndex] = useState(15);
+  const [selectedData, setSelectedData] = useState([]);
+
 
   const { userInfo } = useUserInfoStore();
 
@@ -56,8 +59,18 @@ export const WordList = () => {
     }
     else if (step===4) handleVerify()
     else if (step === 5) {
-      if(allWordsCorrect) setStep(1)
-      else {setStep(6); saveScore();}
+      if(allWordsCorrect) {
+        if (currentPercentageIndex===100) {
+          setStep(6)
+          // TODO: Algo que señalice que se ha completado
+        } else {
+          setCurrentPercentageIndex(currentPercentageIndex+5)      
+          handleGameDataSelection(selectedData)
+        }
+      } else {
+        setStep(6);
+        saveScore();
+      }
     }
     else if (step===6) setStep(1)
     else setStep(step + 1);
@@ -80,10 +93,27 @@ export const WordList = () => {
   }
 
   const handleGameDataSelection = (data) => {
+    setSelectedData(data)
     const selectedWordList = gameData.find((gData) => gData.listName === data.listName).wordList
-    setWordList(selectedWordList)
-    setUserInput(Array(selectedWordList.length).fill(''))
+    const shuffledWordList = shuffleArray(selectedWordList);
+
+    const selectedWordCount = Math.ceil((currentPercentageIndex / 100) * selectedWordList.length);
+    console.log("selectedWordCount", selectedWordCount)
+    const selectedShuffledWordList = shuffledWordList.slice(0, selectedWordCount)
+    setWordList(selectedShuffledWordList);
+    setUserInput(Array(selectedShuffledWordList.length).fill(''))
     setStep(3);
+  }
+
+  function shuffleArray(array) {
+    let currentIndex = array.length
+    let randomIndex
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
   }
 
   const renderWordInput = (index) => {
@@ -174,14 +204,14 @@ export const WordList = () => {
                   ))}
                 </div>
                 <button onClick={handleNext} style={{ marginTop: '1em' }}>
-                  {step===4 ? 'Verificar' : 'Siguiente'}
+                  {step===4 ? 'Verificar' : 'Siguiente Nivel'}
                 </button>
               </>
             )}
             {step === 6 && (
               <>
                 <p>Tu puntuación: {score}</p>
-                <button onClick={handleNext} style={{ marginTop: '1em' }}>
+                <button onClick={handleNext} style={{ margin: '1em 0' }}>
                   Terminar
                 </button>
                 <ResultView gameName={'wordList'}/>
