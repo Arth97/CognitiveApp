@@ -1,4 +1,4 @@
-# GamiAppNode
+# CognitiveApp
 
 This is a project I'm working on to practice and learn various technologies,
 including Express.js, Clean Architecture, MongoDB, Mongoose, design patterns, and more.
