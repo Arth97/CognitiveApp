@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 // import './NumberMemory.css';
 import React, { useState, useEffect, useContext } from 'react';
 
@@ -6,42 +6,60 @@ import Chart, { ChartConfiguration } from 'chart.js/auto';
 import { CHART_COLORS, transparentize } from '../utils/chartUtils'
 import { ScoreApi } from '../api/backApi';
 
-import UserInfoContext from '../context/userInfoContext';
+// import UserInfoContext from '../context/userInfoContext';
 import { chartBackgroundColor } from '../plugins/chartJsPlugins'; // Ruta correcta al archivo del plugin
 import { useNumberStore } from '../state/numberMemoryState';
+import { useUserInfoStore } from '../state/userState';
 
-export const ResultView = ({gameName}) => {
-
+// TODO: Cada juego puede pasar 'level', 'score', 'time' o yo que se
+// TODO: asi que, deberia pasarlo por argumento? todos por zustand?
+export const ResultView = ({gameName, score}) => {
   const [userScores, setUserScores] = useState(null);
   const [totalScores, setTotalScores] = useState(null);
   const [chartInstance, setChartInstance] = useState(null);
 
-  const {userInfo} = useContext(UserInfoContext)
+  // const {userInfo} = useContext(UserInfoContext)
+  const { userInfo } = useUserInfoStore();
 
   const { level } = useNumberStore();
 
   const scoreApi = new ScoreApi();
 
+  // TODO: No se si solo desde WordListo mas, este componente se esta ejecutand 2 veces seguidas,
+  // TODO: o por lo menos el useEffect inicial (de ahi deduzco qu ese instancie 2 veces)
+
+  // console.log("Componente ResultView renderizado");
+
   useEffect(() => {
-    scoreApi.saveScore({
-      userId: userInfo.id,
-      gameId: 'numberMemory', // TODO: Ajustarlo para que entre por parametro cualquier game
-      score: level,
-      time: null
-    });
+    // console.log("zustand userInfo ", userInfo)
+    saveAndRetriveScores();
+    // console.log("testeeee", userScores,  totalScores)
+  }, []);
+
+  const saveAndRetriveScores = async () => {
+    // TODO: Revisar si deberia coger a parte los datos que se van a guardar para mostrarlos en la grafica
+    // TODO-check: Quiza se deberia guardar desde cada componente antes de instanciar este
+    // scoreApi.saveScore({
+    //   userId: userInfo.id,
+    //   gameId: gameName,
+    //   score: score,
+    //   time: null
+    // });
     
-    scoreApi.getUserScores({ userId: userInfo.id, gameId: 'numberMemory' }).then((data) => {
+    await scoreApi.getUserScores({ userId: userInfo.id, gameId: gameName }).then((data) => {
+      // console.log("data", data)
       setUserScores(data)
     })
     .catch(() => { })
   
-    scoreApi.getTotalScores({ userId: userInfo.id, gameId: 'numberMemory' }).then((data) => {
+    await scoreApi.getTotalScores({ userId: userInfo.id, gameId: gameName }).then((data) => {
       setTotalScores(data)
     })
     .catch(() => { })
-  }, []);
+  }
 
   useEffect(() => {
+    // console.log("testeeee", userScores,  totalScores)
     if (!userScores || !totalScores) return;
 
     // userScores[points]++;
@@ -125,7 +143,7 @@ export const ResultView = ({gameName}) => {
 
     setChartInstance(newChartInstance);
 
-  }, [userScores, totalScores]);
+  }, [userScores && totalScores]);
 
   return (
     <>

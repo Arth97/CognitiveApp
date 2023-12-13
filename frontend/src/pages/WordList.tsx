@@ -30,7 +30,6 @@ export const WordList = () => {
   const [currentPercentageIndex, setCurrentPercentageIndex] = useState(15);
   const [selectedData, setSelectedData] = useState([]);
 
-
   const { userInfo } = useUserInfoStore();
 
   const navigate = useNavigate();
@@ -38,6 +37,7 @@ export const WordList = () => {
   const scoreApi = new ScoreApi();
 
   useEffect(() => {
+    console.log("userInfo", userInfo)
     const retriveData = async () => {
       const data = await gameApi.getGameDataByName('wordList')
       setGameData(data.data); // TODO: Modificar el back para no tener tanto data.data anidado en el objeto de respuesta
@@ -46,6 +46,7 @@ export const WordList = () => {
   },[])
 
   const handleStart = () => {
+    setCurrentPercentageIndex(15)
     setGameStarted(true);
     setScore(0);
     setStep(2);
@@ -61,6 +62,8 @@ export const WordList = () => {
     else if (step === 5) {
       if(allWordsCorrect) {
         if (currentPercentageIndex===100) {
+          console.log("test1")
+          saveScore();
           setStep(6)
           // TODO: Algo que señalice que se ha completado
         } else {
@@ -68,11 +71,12 @@ export const WordList = () => {
           handleGameDataSelection(selectedData)
         }
       } else {
-        setStep(6);
+        console.log("test2")
         saveScore();
+        setStep(6);
       }
     }
-    else if (step===6) setStep(1)
+    else if (step===6) { setStep(1); setGameStarted(false) }
     else setStep(step + 1);
   };
 
@@ -84,6 +88,7 @@ export const WordList = () => {
   };
 
   const saveScore = () => {
+    console.log("score saving", score)
     scoreApi.saveScore({
       userId: userInfo.id,
       gameId: 'wordList',
@@ -214,7 +219,7 @@ export const WordList = () => {
                 <button onClick={handleNext} style={{ margin: '1em 0' }}>
                   Terminar
                 </button>
-                <ResultView gameName={'wordList'}/>
+                <ResultView gameName={'wordList'} score={score} />
               </>
             )}
           </div>

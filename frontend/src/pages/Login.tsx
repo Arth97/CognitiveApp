@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserApi } from '../api/backApi';
-import UserInfoContext from '../context/userInfoContext';
+// import UserInfoContext from '../context/userInfoContext';
 import { useUserInfoStore } from '../state/userState';
 
 export const Login = (props)  => {

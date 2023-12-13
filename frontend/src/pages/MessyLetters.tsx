@@ -137,7 +137,7 @@ export const MessyLetters = () => {
                 <button onClick={()=>setStep(1)} style={{ margin: '1em 0' }}>
                   Terminar
                 </button>
-                <ResultView gameName={'messyLetters'}/>
+                <ResultView gameName={'messyLetters'} score={score} />
               </>
             )}
           </div>
