@@ -46,6 +46,9 @@ export const ResultView = ({gameName, score}) => {
     //   time: null
     // });
     
+
+    // !!! TODO: INVESTIGAR PROMISE.ALL Y VER SI SIRVE PARA ESPERAR A LAS 2 AL MISMO TIEMPO
+    // Sino intentar guardar en variables temorales hasta que esten las dos xdxdxd
     await scoreApi.getUserScores({ userId: userInfo.id, gameId: gameName }).then((data) => {
       // console.log("data", data)
       setUserScores(data)

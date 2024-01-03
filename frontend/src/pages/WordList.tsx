@@ -11,13 +11,6 @@ const initialWordList = [
   'Palabra6', 'Palabra7', 'Palabra8', 'Palabra9', 'Palabra10'
 ];
 
-// TODO1: Mejorar la forma en la que pasas al siguiente nivel cuando aciertas todas ya que parece que comienza de nuevo.
-
-// TODO2: Corregir, cuando terminas partida y empiezas una nueva, la grafica no funciona, 
-// TODO: quizá no se esté destruyendo correctamente al ir por componente, revisar con la hardcoded.
-
-// TODO3: Corregir datos mostrados en grafica, (dessarrollar save score?)
-
 export const WordList = () => {
   const [saveNewData, setSaveNewData] = useState(false);
   const [wordList, setWordList] = useState(initialWordList);
@@ -62,7 +55,6 @@ export const WordList = () => {
     else if (step === 5) {
       if(allWordsCorrect) {
         if (currentPercentageIndex===100) {
-          console.log("test1")
           saveScore();
           setStep(6)
           // TODO: Algo que señalice que se ha completado
@@ -71,7 +63,6 @@ export const WordList = () => {
           handleGameDataSelection(selectedData)
         }
       } else {
-        console.log("test2")
         saveScore();
         setStep(6);
       }
