@@ -4,23 +4,29 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InputWordList } from '../components/inputWordList';
 import { ResultView } from '../components/resultComponent';
-import { GameApi } from '../api/backApi';
+import { GameApi, ScoreApi } from '../api/backApi';
+import { useUserInfoStore } from '../state/userState';
 
 export const MessyLetters = () => {
   const [saveNewData, setSaveNewData] = useState(false);
   const [step, setStep] = useState(1);
   const [correctWord, setCorrectWord] = useState('');
   const [currentWord, setCurrentWord] = useState('');
+  const [previousWord, setPreviousWord] = useState('');
   const [userInput, setUserInput] = useState('');
   const [isCorrect, setIsCorrect] = useState(null);
   const [score, setScore] = useState(0)
   const [gameData, setGameData] = useState(null);
+  const [selectedWordList, setSelectedWordList] = useState(null);
 
   const navigate = useNavigate();
 
   // const wordList = ['react', 'javascript', 'developer', 'component', 'state'];
 
+  const { userInfo } = useUserInfoStore();
+
   const gameApi = new GameApi();
+  const scoreApi = new ScoreApi();
 
   // TODO: Revisar si falta lo mismo que en wordList
 
@@ -34,13 +40,28 @@ export const MessyLetters = () => {
   },[]) 
 
   const handleNextOrResults = () => {
+    console.log("SCOREEEE", score)
     if (isCorrect) {
+      setRandomWord(selectedWordList)
+      setUserInput('')
       setScore(score+1)
-      setStep(1);
+      setStep(3);
     } else {
       setStep(5);
+      saveScore()
+      setScore(0)
     }
   };
+
+  const saveScore = () => {
+    console.log("score saving", score)
+    scoreApi.saveScore({
+      userId: userInfo.id,
+      gameId: 'messyLetters',
+      score: score,
+      time: null
+    })    
+  }
   
   const handleVerify = () => {
     const isInputCorrect = userInput.toLowerCase() === correctWord.toLowerCase();
@@ -50,16 +71,25 @@ export const MessyLetters = () => {
 
   const handleGameDataSelection = (data) => {
     const selectedWordList = gameData.find((gData) => gData.listName === data.listName).wordList
+    setSelectedWordList(selectedWordList)
+    setRandomWord(selectedWordList)
+  }
+
+  const getRandomWord = (selectedWordList) => {
+    let randomIndex
+    do {
+      randomIndex = Math.floor(Math.random() * selectedWordList.length);
+    } while (selectedWordList[randomIndex]===previousWord)
+    setPreviousWord(selectedWordList[randomIndex])
+    return selectedWordList[randomIndex];
+  };
+
+  const setRandomWord = (selectedWordList) => {
     const newWord = getRandomWord(selectedWordList);
     setCorrectWord(newWord)
     setCurrentWord(shuffleWord(newWord));
     setStep(3);
   }
-
-  const getRandomWord = (selectedWordList) => {
-    const randomIndex = Math.floor(Math.random() * selectedWordList.length);
-    return selectedWordList[randomIndex];
-  };
 
   const shuffleWord = (word) => {
     let shuffledWord
@@ -127,7 +157,7 @@ export const MessyLetters = () => {
                   )}
                 </p>
                 <button onClick={handleNextOrResults} style={{ marginTop: '1em' }}>
-                  {isCorrect ? 'Siguiente' : 'Resultados'}
+                  {isCorrect ? 'Siguiente Palabra' : 'Resultados'}
                 </button>
               </>
             )}
