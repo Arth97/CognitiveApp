@@ -56,21 +56,49 @@ export const Login = (props)  => {
 
   return (
     <div className="auth-form-container">
+      <form className="form" onSubmit={handleSubmit}>
       <h2>Login</h2>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input value={username} onChange={(e)=>setUsername(e.target.value)} type="text" placeholder="Username" id="username" name="username" />
+      {/* </form> */}
+        <div className="flex-column">
+          <label htmlFor="username">Username</label>
+        </div>
+        <div className="inputForm">
+          <svg height="20" viewBox="0 0 32 32" width="20" xmlns="http://www.w3.org/2000/svg">
+            {/* SVG Path for Email Icon */}
+          </svg>
+          <input value={username} onChange={(e)=>setUsername(e.target.value)} className="input" type="text" placeholder="Username" id="username" name="username" />
+        </div>
 
-        {/* <label htmlFor="email">Email</label>
-        <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="user@mail.com" id="email" name="email" /> */}
+        <div className="flex-column">
+          <label htmlFor="password">Password</label>
+        </div>
+        <div className="inputForm">
+          <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
+            {/* SVG Path for Password Icon */}
+          </svg>
+          <input disabled value={pass} onChange={(e)=>setPass(e.target.value)} type="password" className="input" placeholder="********" id="password" name="password" />
+          <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+            {/* SVG Path for Show Password Icon */}
+          </svg>
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input disabled value={pass} onChange={(e)=>setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
+        <div className="flex-row">
+          <div>
+            <input type="checkbox" />
+            <label>Remember me </label>
+          </div>
+          <span className="span">Forgot password?</span>
+        </div>
 
-        <button type="submit">Iniciar Sesion</button>
+        <button type="submit" className="button-submit">Sign In</button>
+        <p className="p">
+          Aun no estas registrado? <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Registrate aqui.</button>
+        </p>
+
+        <div className="flex-row">
+          <button onClick={useGuest} className="hmain-btn btn">Iniciar como invitado</button>
+        </div>
       </form>
-      <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Aun no estas registrado? Registrate aqui.</button>
-      <button onClick={useGuest} className="hmain-btn">Iniciar como invitado</button>
     </div>
-  )
+  );
 }
