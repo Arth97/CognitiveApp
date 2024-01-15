@@ -138,8 +138,7 @@ button {
   color: white;
   font-size: 15px;
   font-weight: 500;
-  border-radius: 10px;
-  height: 50px;
+  border-radius: 10px;  
   width: 100%;
   cursor: pointer;
 }
