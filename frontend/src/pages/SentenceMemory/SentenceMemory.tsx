@@ -2,12 +2,12 @@
 import '../styles/SentenceMemory.css';
 import React, { useEffect, useState } from 'react';
 
-import { InputSentence } from '../components/SentenceMemory/inputSentence';
-import { SelectWords } from '../components/SentenceMemory/selectWords';
+import { InputSentence } from '../../components/Sentencememory/inputSentence';
+import { SelectWords } from '../../components/Sentencememory/selectWords';
 
-import { GameApi } from '../api/backApi';
+import { GameApi } from '../../api/backApi';
 import { useNavigate } from 'react-router-dom';
-import { ResultView } from '../components/resultComponent';
+import { ResultView } from '../../components/resultComponent';
 
 export const SentenceMemory = () => {
   const [step, setStep] = useState(0);

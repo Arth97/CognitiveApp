@@ -1,8 +1,8 @@
 
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserApi } from '../api/backApi';
-import UserInfoContext from '../context/userInfoContext';
+import { UserApi } from '../../api/backApi';
+import UserInfoContext from '../../context/userInfoContext';
 
 
 export const Register = (props)  => {

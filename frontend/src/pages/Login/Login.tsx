@@ -1,9 +1,9 @@
 
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserApi } from '../api/backApi';
+import { UserApi } from '../../api/backApi';
 // import UserInfoContext from '../context/userInfoContext';
-import { useUserInfoStore } from '../state/userState';
+import { useUserInfoStore } from '../../state/userState';
 
 export const Login = (props)  => {
   const [username, setUsername] = useState('');

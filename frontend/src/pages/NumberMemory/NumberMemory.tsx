@@ -1,17 +1,17 @@
 import '../styles/NumberMemory.css';
 import React, { useState, useEffect, useContext } from 'react';
 
-import { AnswerView } from '../components/NumberMemory/answerComponent';
-import { InputNumber } from '../components/NumberMemory/inputNumberComponent';
-import { ResultView } from '../components/NumberMemory/resultComponent';
-import { ShowNumber } from '../components/NumberMemory/showNumberComponent';
+import { AnswerView } from '../../components/NumberMemory/answerComponent';
+import { InputNumber } from '../../components/NumberMemory/inputNumberComponent';
+import { ResultView } from '../../components/NumberMemory/resultComponent';
+import { ShowNumber } from '../../components/NumberMemory/showNumberComponent';
 
 // import { ScoreApi } from '../api/backApi';
 
 // import UserInfoContext from '../context/userInfoContext';
 
 // import { useUserInfoStore } from '../state/userState';
-import { useNumberStore, usePageStatusStore } from '../state/numberMemoryState';
+import { useNumberStore, usePageStatusStore } from '../../state/numberMemoryState';
 
 export const NumberMemory = () => {
   const [progress, setProgress] = useState(0);

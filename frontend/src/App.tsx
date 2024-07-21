@@ -3,7 +3,7 @@ import './App.css';
 import { Login, Register, Home, NumberMemory, WordMemory, LetterMix, QuickReflex, SentenceMemory, WordList, MessyLetters, ChainedWords, SquareMemory } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import { UserInfoContextProvider } from './context/userInfoContext';
-import { StroopEffect } from './pages/StroopEffect';
+import { StroopEffect } from './pages/StroopEffect/StroopEffect';
 
 function App() {
   

@@ -6,8 +6,8 @@ import { useState, useEffect, useContext } from 'react';
 
 // import { useUserInfoStore } from '../state/userState';
 import { useNavigate } from 'react-router-dom';
-import { InputWordList } from '../components/inputWordList';
-import { ResultView } from '../components/resultComponent';
+import { InputWordList } from '../../components/inputWordList';
+import { ResultView } from '../../components/resultComponent';
 
 // var words = require('an-array-of-english-words')
 
