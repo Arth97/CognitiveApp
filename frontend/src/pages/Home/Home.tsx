@@ -1,5 +1,5 @@
-import '../styles/Home.css';
-import '../styles/Main.css';
+import './Home.css';
+import '../../styles/Main.css';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 

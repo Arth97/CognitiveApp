@@ -1,4 +1,4 @@
-import '../styles/NumberMemory.css';
+import './NumberMemory.css';
 import React, { useState, useEffect, useContext } from 'react';
 
 import { AnswerView } from '../../components/NumberMemory/answerComponent';

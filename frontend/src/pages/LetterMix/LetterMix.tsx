@@ -1,4 +1,4 @@
-import '../styles/LetterMix.css';
+import './LetterMix.css';
 import React, { useState, useEffect } from 'react';
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
